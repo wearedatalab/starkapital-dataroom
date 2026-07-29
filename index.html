@@ -307,8 +307,17 @@ body.gated #page{display:none}
 #gate{position:fixed;inset:0;z-index:1000;display:none;background:var(--navy)}
 body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
 .gate-visual{position:relative;overflow:hidden}
-.gate-visual img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.75;animation:gz 22s ease-in-out infinite alternate}
+.gcar{position:absolute;inset:0}
+.gcar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.3s ease;animation:gz 22s ease-in-out infinite alternate}
+.gcar img.on{opacity:.75}
 @keyframes gz{from{transform:scale(1.02)}to{transform:scale(1.12)}}
+.gq-dots{display:flex;gap:8px;margin-top:18px}
+.gq-dots i{width:26px;height:3px;border-radius:3px;background:rgba(255,255,255,.22);cursor:pointer;transition:.3s;position:relative;overflow:hidden}
+.gq-dots i.on{background:rgba(229,242,36,.28)}
+.gq-dots i.on::after{content:'';position:absolute;inset:0;background:var(--lime);animation:dotfill 4.5s linear forwards}
+@keyframes dotfill{from{transform:translateX(-100%)}to{transform:none}}
+#gqText{transition:opacity .5s}
+#gqText.fade{opacity:0}
 .gate-visual::after{content:'';position:absolute;inset:0;background:linear-gradient(115deg,rgba(10,21,36,.45) 30%,rgba(15,30,50,.92) 92%,var(--navy))}
 .gate-quote{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:44px 48px;background:linear-gradient(transparent,rgba(10,21,36,.94))}
 .gate-quote p{font-size:clamp(17px,1.7vw,24px);font-weight:300;max-width:480px;line-height:1.4;letter-spacing:-.01em}
@@ -432,10 +441,16 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
 <!-- ========== GATE: acceso por correo ========== -->
 <div id="gate" role="dialog" aria-label="Acceso al Data Room">
   <div class="gate-visual">
-    <img src="img/fleet.jpg" alt="Vehículos productivos">
+    <div class="gcar">
+      <img src="img/fleet.jpg" alt="Taxi productivo" class="on">
+      <img src="img/moto.jpg" alt="Moto de trabajo" loading="lazy">
+      <img src="img/camion.jpg" alt="Camión de carga" loading="lazy">
+      <img src="img/maquinaria.jpg" alt="Maquinaria amarilla" loading="lazy">
+    </div>
     <div class="gate-quote">
       <span class="gq-tag">Crédito para vehículos productivos</span>
-      <p>Financiamos las máquinas que <b>mueven la economía</b>: taxis, camiones, motos y embarcaciones que trabajan todos los días.</p>
+      <p id="gqText">Financiamos los <b>taxis</b> que mueven la ciudad todos los días.</p>
+      <div class="gq-dots" id="gqDots"></div>
     </div>
   </div>
   <div class="gate-panel">
@@ -890,6 +905,31 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
     [['uavatar',ini],['mavatar',ini],['uname',u.name],['mname',u.name],['uemail',u.email],['memail',u.email]]
       .forEach(([id,val])=>{const el=document.getElementById(id);if(el)el.textContent=val});
   }
+  /* carrusel del gate */
+  (function(){
+    const SLIDES=[
+      'Financiamos los <b>taxis</b> que mueven la ciudad todos los días.',
+      'Financiamos las <b>motos</b> que entregan y conectan el comercio.',
+      'Financiamos los <b>camiones</b> que cargan la economía del país.',
+      'Financiamos la <b>maquinaria amarilla</b> que construye el futuro.'
+    ];
+    const imgs=[...document.querySelectorAll('.gcar img')],txt=document.getElementById('gqText'),
+          dotsBox=document.getElementById('gqDots');
+    dotsBox.innerHTML=SLIDES.map((_,i)=>'<i'+(i?'':' class="on"')+'></i>').join('');
+    const dots=[...dotsBox.children];
+    let cur=0,timer;
+    function go(n){
+      cur=n%SLIDES.length;
+      imgs.forEach((im,i)=>im.classList.toggle('on',i===cur));
+      dots.forEach((d,i)=>d.classList.toggle('on',i===cur));
+      txt.classList.add('fade');
+      setTimeout(()=>{txt.innerHTML=SLIDES[cur];txt.classList.remove('fade')},500);
+    }
+    function arm(){clearInterval(timer);timer=setInterval(()=>go(cur+1),4500)}
+    dots.forEach((d,i)=>d.addEventListener('click',()=>{go(i);arm()}));
+    arm();
+  })();
+
   const stored=getUser();
   if(!stored){document.body.classList.add('gated')}else{setUserUI(stored)}
   document.getElementById('ulogout').addEventListener('click',()=>{
