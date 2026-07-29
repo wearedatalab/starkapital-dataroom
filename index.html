@@ -348,15 +348,24 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
 .gate-vehicles span{width:46px;height:46px;border-radius:12px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--olive);font-size:22px;transition:.3s}
 .gate-vehicles span:hover{border-color:var(--lime);color:var(--lime);transform:translateY(-3px)}
 @media(max-width:900px){
-  body.gated #gate{grid-template-columns:1fr;grid-template-rows:34svh 1fr}
-  .gate-quote{padding:22px 24px}
-  .gate-quote p{font-size:15px;max-width:none}
-  .gate-quote .gq-tag{margin-bottom:8px}
-  .gate-panel{border-left:0;border-top:1px solid var(--border);padding:36px 24px 26px}
+  body.gated #gate{grid-template-columns:1fr;grid-template-rows:30svh minmax(0,1fr)}
+  .gate-quote{padding:14px 20px 12px;background:linear-gradient(transparent,rgba(10,21,36,.97))}
+  .gate-quote p{font-size:13.5px;max-width:none;line-height:1.4}
+  .gate-quote .gq-tag{margin-bottom:6px;font-size:9.5px}
+  .gq-dots{margin-top:10px}
+  .gq-dots i{width:20px}
+  .gate-panel{border-left:0;border-top:1px solid var(--border);padding:26px 22px 20px}
   .gate-panel .mark{display:none}
   .gate-body{margin:0 0 auto}
-  .gate-foot{padding-top:26px}
-  .gate-vehicles{margin-top:22px}
+  .gate-body h1{font-size:26px}
+  .gate-body .sub{font-size:14px;margin-top:12px}
+  .gate-form{margin-top:22px;max-width:none}
+  .gate-field input{padding:15px 0;font-size:16px}
+  .gate-form .btn{padding:15px}
+  .gate-note{margin-top:16px;font-size:11.5px;max-width:none}
+  .gate-vehicles{margin-top:18px;justify-content:center}
+  .gate-vehicles span{width:40px;height:40px;font-size:19px}
+  .gate-foot{padding-top:18px;justify-content:center}
 }
 
 /* ================= PRELOADER ================= */
@@ -387,6 +396,43 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
 .ld-bar i{display:block;height:100%;width:0;background:var(--lime);border-radius:3px;animation:ldbar 3.2s cubic-bezier(.3,.6,.4,1) forwards}
 @keyframes ldbar{to{width:100%}}
 .ld-city{position:absolute;inset:auto 0 0 0;height:34vh;background:linear-gradient(transparent,rgba(229,242,36,.045));pointer-events:none}
+
+/* escena de despedida (logout) */
+.lo-taxi{position:absolute;bottom:26px;left:-170px;width:130px;animation:lotaxi 3.1s cubic-bezier(.45,.05,.55,.95) forwards}
+.lo-taxi svg{width:100%;height:auto;display:block;animation:jiggle .38s ease-in-out infinite}
+@keyframes lotaxi{0%{left:-170px}38%{left:calc(50% - 110px)}68%{left:calc(50% - 110px)}100%{left:calc(100% + 60px)}}
+.lo-person{position:absolute;bottom:24px;left:calc(50% + 46px);width:40px;animation:loperson 3.1s forwards}
+@keyframes loperson{0%,52%{opacity:1;transform:none}64%{opacity:0;transform:translateX(-46px)}100%{opacity:0}}
+.lo-arm{transform-origin:26px 20px;animation:lowave .45s ease-in-out 5 alternate}
+@keyframes lowave{from{transform:rotate(0)}to{transform:rotate(-42deg)}}
+
+/* ========== MODAL ADMIN ========== */
+.amodal[hidden]{display:none}
+.amodal{position:fixed;inset:0;z-index:1100;background:rgba(6,13,23,.78);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:20px}
+.amodal-card{width:min(560px,100%);max-height:88svh;overflow-y:auto;background:var(--navy-deep);border:1px solid var(--border);border-radius:20px;padding:30px;animation:fade .35s ease}
+.amodal-head{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.amodal-head h3{font-size:19px;font-weight:600;display:flex;align-items:center;gap:11px}
+.amodal-head h3 .ic{font-size:21px;color:var(--lime)}
+.amodal-x{width:36px;height:36px;border-radius:10px;border:1px solid var(--border);background:none;color:var(--subtle2);font-size:15px;cursor:pointer;transition:.25s;flex:none}
+.amodal-x:hover{border-color:var(--lime);color:var(--lime)}
+.amodal-sub{font-size:13px;color:var(--body);margin:10px 0 20px}
+.amodal-form{display:grid;grid-template-columns:1fr 1.2fr auto;gap:10px}
+.amodal-form input{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:11px;color:#fff;font-family:inherit;font-size:14px;font-weight:300;padding:13px 14px;outline:0;min-width:0;transition:.25s}
+.amodal-form input:focus{border-color:var(--lime)}
+.amodal-form .btn{padding:13px 20px;font-size:13.5px}
+.amodal-err{display:none;font-size:12.5px;color:#ffb4b4;margin-top:10px}
+.amodal-err.show{display:block}
+.amodal-list{margin-top:20px;display:flex;flex-direction:column;gap:8px}
+.arow{display:flex;align-items:center;gap:12px;border:1px solid var(--border);border-radius:12px;padding:11px 14px;background:rgba(255,255,255,.02)}
+.arow .uavatar{width:34px;height:34px;font-size:12.5px}
+.arow .ainfo{flex:1;min-width:0;line-height:1.25}
+.arow .ainfo b{display:block;font-size:13.5px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.arow .ainfo small{display:block;font-size:11.5px;color:var(--subtle);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.arow .adel{border:0;background:none;color:var(--body);cursor:pointer;font-size:14px;padding:7px;border-radius:8px;transition:.25s;flex:none}
+.arow .adel:hover{color:#ffb4b4;background:rgba(255,120,120,.08)}
+.arow.isadmin .adel{visibility:hidden}
+.arow .atag{font-size:9.5px;font-weight:700;letter-spacing:.1em;color:var(--navy);background:var(--lime);border-radius:100px;padding:2px 8px;flex:none}
+@media(max-width:600px){.amodal-form{grid-template-columns:1fr}.amodal-card{padding:22px}}
 @media(prefers-reduced-motion:reduce){.ld-veh{animation-duration:.01ms}.ld-bar i{animation-duration:.4s}}
 </style>
 </head>
@@ -458,13 +504,8 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
     <div class="gate-body">
       <span class="gate-kicker">Data Room 2026 · Solo inversionistas</span>
       <h1>Bienvenido al<br><em style="font-style:normal;color:var(--lime)">Data Room</em>.</h1>
-      <p class="sub">Este espacio es de acceso exclusivo para inversionistas. Ingrese su correo corporativo para continuar.</p>
+      <p class="sub">Este espacio es de acceso exclusivo para inversionistas. Ingrese el correo autorizado por el administrador para continuar.</p>
       <form class="gate-form" id="gateForm" novalidate>
-        <label for="gateName">Nombre completo</label>
-        <div class="gate-field" style="margin-bottom:16px">
-          <svg class="ic"><use href="#i-users"/></svg>
-          <input type="text" id="gateName" name="name" placeholder="Nombre y apellido" autocomplete="name" required>
-        </div>
         <label for="gateEmail">Correo electrónico</label>
         <div class="gate-field">
           <svg class="ic"><use href="#i-mail"/></svg>
@@ -500,6 +541,24 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
   </div>
 </div>
 
+<!-- ========== MODAL ADMIN: gestión de inversionistas ========== -->
+<div id="adminModal" class="amodal" hidden>
+  <div class="amodal-card">
+    <div class="amodal-head">
+      <h3><svg class="ic"><use href="#i-users"/></svg> Inversionistas autorizados</h3>
+      <button class="amodal-x" id="adminClose" aria-label="Cerrar">✕</button>
+    </div>
+    <p class="amodal-sub">Solo los correos de esta lista pueden ingresar al Data Room. Los cambios se guardan en este navegador.</p>
+    <form class="amodal-form" id="adminForm" novalidate>
+      <input type="text" id="advName" placeholder="Nombre completo" autocomplete="off">
+      <input type="email" id="advEmail" placeholder="correo@compania.com" autocomplete="off">
+      <button type="submit" class="btn btn-p">Agregar</button>
+    </form>
+    <p class="amodal-err" id="adminErr"></p>
+    <div class="amodal-list" id="adminList"></div>
+  </div>
+</div>
+
 <div id="page">
 <header id="hdr">
   <nav class="nav">
@@ -516,6 +575,7 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
     <div class="userbox" id="userbox">
       <span class="uavatar" id="uavatar">·</span>
       <span class="uinfo"><b id="uname">—</b><small id="uemail">—</small></span>
+      <button class="ulogout uadmin" id="uadmin" title="Gestionar inversionistas" hidden><svg class="ic"><use href="#i-users"/></svg><span>Inversionistas</span></button>
       <button class="ulogout" id="ulogout" title="Cerrar sesión"><svg class="ic"><use href="#i-logout"/></svg><span>Salir</span></button>
     </div>
     <a href="#" class="cta js-wa"><svg class="ic"><use href="#i-wa"/></svg> Agendar reunión</a>
@@ -893,18 +953,73 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
 </svg>`}
   ];
   const gate=document.getElementById('gate'),form=document.getElementById('gateForm'),
-        email=document.getElementById('gateEmail'),name=document.getElementById('gateName'),
+        email=document.getElementById('gateEmail'),
         err=document.getElementById('gateErr'),errMsg=document.getElementById('gateErrMsg'),
         loader=document.getElementById('loader'),veh=document.getElementById('ldVeh'),
         title=document.getElementById('ldTitle');
-  const KEY='sk_dr_user';
+  const KEY='sk_dr_user',IKEY='sk_dr_investors';
+  const ADMIN={name:'Juan Felipe Arbeláez',email:'gerencia@starkapital.com'};
+  const esc=t=>String(t).replace(/[<>&"]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]));
+
+  /* ---- base de inversionistas (localStorage, la administra el admin) ---- */
+  function getInv(){try{const v=JSON.parse(localStorage.getItem(IKEY));return Array.isArray(v)?v:[]}catch(_){return []}}
+  function setInv(list){try{localStorage.setItem(IKEY,JSON.stringify(list))}catch(_){}}
+  if(!localStorage.getItem(IKEY)) setInv([{name:'Inversionista Demo',email:'demo@starkapital.com'}]);
+
   function getUser(){try{return JSON.parse(sessionStorage.getItem(KEY))}catch(_){return null}}
   function setUserUI(u){
     if(!u)return;
     const ini=u.name.trim().split(/\s+/).map(p=>p[0]).slice(0,2).join('');
     [['uavatar',ini],['mavatar',ini],['uname',u.name],['mname',u.name],['uemail',u.email],['memail',u.email]]
       .forEach(([id,val])=>{const el=document.getElementById(id);if(el)el.textContent=val});
+    document.getElementById('uadmin').hidden=u.role!=='admin';
   }
+
+  /* ---- preloader de vehículo (login y F5) ---- */
+  function runEntry(u,short){
+    const V=VEHICLES[Math.floor(Math.random()*VEHICLES.length)];
+    veh.style.display='';veh.parentElement.querySelectorAll('.lo-taxi,.lo-person').forEach(n=>n.remove());veh.innerHTML=V.svg;veh.className='ld-veh'+(V.sea?' boat':'');
+    loader.classList.toggle('sea',V.sea);
+    title.innerHTML=V.msg;
+    gate.style.display='none';
+    loader.classList.add('show');
+    const first=esc(u.name.trim().split(/\s+/)[0]);
+    const t1=short?1900:2650,t2=short?2500:3450;
+    setTimeout(()=>{title.innerHTML='Bienvenido, <b>'+first+'</b>.'},t1);
+    setTimeout(()=>{
+      loader.classList.add('hide');
+      document.body.classList.remove('gated');
+      window.scrollTo(0,0);
+      setTimeout(()=>{loader.classList.remove('show','hide')},750);
+    },t2);
+  }
+
+  /* ---- escena de despedida (logout) ---- */
+  const LIME2='#e5f224';
+  const PERSON='<svg viewBox="0 0 52 62" fill="none">'
+    +'<g class="lo-arm"><path d="M26 22L38 8" stroke="'+LIME2+'" stroke-width="4.5" stroke-linecap="round"/><circle cx="40" cy="6" r="3.5" fill="'+LIME2+'"/></g>'
+    +'<circle cx="22" cy="10" r="8" fill="'+LIME2+'"/>'
+    +'<path d="M22 18v20" stroke="'+LIME2+'" stroke-width="5.5" stroke-linecap="round"/>'
+    +'<path d="M22 24l-10 8" stroke="'+LIME2+'" stroke-width="4.5" stroke-linecap="round"/>'
+    +'<path d="M22 38l-8 18M22 38l8 18" stroke="'+LIME2+'" stroke-width="5" stroke-linecap="round"/>'
+    +'</svg>';
+  function runExit(u){
+    veh.className='ld-veh';veh.innerHTML='';veh.style.display='none';
+    loader.classList.remove('sea');
+    const stage=veh.parentElement;
+    stage.querySelectorAll('.lo-taxi,.lo-person').forEach(n=>n.remove());
+    const t=document.createElement('div');t.className='lo-taxi';t.innerHTML=VEHICLES[0].svg;
+    const pr=document.createElement('div');pr.className='lo-person';pr.innerHTML=PERSON;
+    stage.append(t,pr);
+    const first=esc((u&&u.name||'').trim().split(/\s+/)[0]||'');
+    title.innerHTML='Hasta pronto'+(first?', <b>'+first+'</b>':'')+'. ¡Buen viaje!';
+    loader.classList.add('show');
+    setTimeout(()=>{
+      try{sessionStorage.removeItem(KEY)}catch(_){}
+      location.reload();
+    },3500);
+  }
+
   /* carrusel del gate */
   (function(){
     const SLIDES=[
@@ -931,34 +1046,64 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
   })();
 
   const stored=getUser();
-  if(!stored){document.body.classList.add('gated')}else{setUserUI(stored)}
-  document.getElementById('ulogout').addEventListener('click',()=>{
-    try{sessionStorage.removeItem(KEY)}catch(_){}
-    location.reload();
-  });
+  if(!stored){
+    document.body.classList.add('gated');
+  }else{
+    setUserUI(stored);
+    document.body.classList.add('gated');   /* F5: preloader también */
+    runEntry(stored,true);
+  }
+  document.getElementById('ulogout').addEventListener('click',()=>runExit(getUser()));
+
+  /* ---- login solo con correo ---- */
   form.addEventListener('submit',e=>{
     e.preventDefault();
-    const n=name.value.trim(),v=email.value.trim();
-    if(n.length<3){errMsg.textContent='Ingrese su nombre completo para continuar.';err.classList.add('show');name.focus();return}
-    if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)){errMsg.textContent='Ingrese un correo válido para continuar.';err.classList.add('show');email.focus();return}
+    const v=email.value.trim().toLowerCase();
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)){
+      errMsg.textContent='Ingrese un correo válido para continuar.';err.classList.add('show');email.focus();return;
+    }
+    let u=null;
+    if(v===ADMIN.email.toLowerCase()) u={name:ADMIN.name,email:ADMIN.email,role:'admin'};
+    else{
+      const hit=getInv().find(x=>x.email.toLowerCase()===v);
+      if(hit) u={name:hit.name,email:hit.email,role:'inversionista'};
+    }
+    if(!u){
+      errMsg.textContent='Este correo no está autorizado. Solicite acceso al administrador.';
+      err.classList.add('show');email.focus();return;
+    }
     err.classList.remove('show');
-    const u={name:n,email:v};
     try{sessionStorage.setItem(KEY,JSON.stringify(u))}catch(_){}
     setUserUI(u);
-    const V=VEHICLES[Math.floor(Math.random()*VEHICLES.length)];
-    veh.innerHTML=V.svg;veh.className='ld-veh'+(V.sea?' boat':'');
-    loader.classList.toggle('sea',V.sea);
-    title.innerHTML=V.msg;
-    gate.style.display='none';
-    loader.classList.add('show');
-    const first=n.split(/\s+/)[0].replace(/[<>&]/g,'');
-    setTimeout(()=>{title.innerHTML='Bienvenido, <b>'+first+'</b>.'},2650);
-    setTimeout(()=>{
-      loader.classList.add('hide');
-      document.body.classList.remove('gated');
-      window.scrollTo(0,0);
-      setTimeout(()=>{loader.classList.remove('show','hide')},750);
-    },3450);
+    runEntry(u,false);
+  });
+
+  /* ---- panel admin: crear/eliminar inversionistas ---- */
+  const modal=document.getElementById('adminModal'),aList=document.getElementById('adminList'),
+        aForm=document.getElementById('adminForm'),aName=document.getElementById('advName'),
+        aEmail=document.getElementById('advEmail'),aErr=document.getElementById('adminErr');
+  function renderInv(){
+    const rows=getInv().map((x,i)=>{
+      const ini=esc(x.name.trim().split(/\s+/).map(p=>p[0]).slice(0,2).join('').toUpperCase());
+      return '<div class="arow"><span class="uavatar">'+ini+'</span><span class="ainfo"><b>'+esc(x.name)+'</b><small>'+esc(x.email)+'</small></span><button class="adel" data-i="'+i+'" title="Eliminar">✕</button></div>';
+    }).join('');
+    aList.innerHTML='<div class="arow isadmin"><span class="uavatar">JF</span><span class="ainfo"><b>'+esc(ADMIN.name)+'</b><small>'+esc(ADMIN.email)+'</small></span><span class="atag">ADMIN</span></div>'+rows;
+    aList.querySelectorAll('.adel').forEach(b=>b.onclick=()=>{
+      const list=getInv();list.splice(+b.dataset.i,1);setInv(list);renderInv();
+    });
+  }
+  document.getElementById('uadmin').addEventListener('click',()=>{renderInv();aErr.classList.remove('show');modal.hidden=false});
+  document.getElementById('adminClose').addEventListener('click',()=>modal.hidden=true);
+  modal.addEventListener('click',e=>{if(e.target===modal)modal.hidden=true});
+  aForm.addEventListener('submit',e=>{
+    e.preventDefault();
+    const n=aName.value.trim(),v=aEmail.value.trim().toLowerCase();
+    if(n.length<3){aErr.textContent='Ingrese el nombre completo del inversionista.';aErr.classList.add('show');return}
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)){aErr.textContent='Ingrese un correo válido.';aErr.classList.add('show');return}
+    if(v===ADMIN.email.toLowerCase()||getInv().some(x=>x.email.toLowerCase()===v)){aErr.textContent='Ese correo ya está registrado.';aErr.classList.add('show');return}
+    aErr.classList.remove('show');
+    const list=getInv();list.push({name:n,email:v});setInv(list);
+    aName.value='';aEmail.value='';renderInv();
   });
 })();
 
