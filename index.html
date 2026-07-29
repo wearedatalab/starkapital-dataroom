@@ -284,6 +284,85 @@ footer{border-top:1px solid var(--border);padding:38px 0 32px;font-size:13px;col
   .avatar{width:60px;height:60px;font-size:21px}
 }
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:.01ms!important}.rv{opacity:1;transform:none}}
+
+/* ================= GATE (acceso por correo) ================= */
+body.gated{overflow:hidden}
+body.gated #page{display:none}
+#gate{position:fixed;inset:0;z-index:1000;display:none;background:var(--navy)}
+body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
+.gate-visual{position:relative;overflow:hidden}
+.gate-visual img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.75;animation:gz 22s ease-in-out infinite alternate}
+@keyframes gz{from{transform:scale(1.02)}to{transform:scale(1.12)}}
+.gate-visual::after{content:'';position:absolute;inset:0;background:linear-gradient(115deg,rgba(10,21,36,.45) 30%,rgba(15,30,50,.92) 92%,var(--navy))}
+.gate-quote{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:44px 48px;background:linear-gradient(transparent,rgba(10,21,36,.94))}
+.gate-quote p{font-size:clamp(17px,1.7vw,24px);font-weight:300;max-width:480px;line-height:1.4;letter-spacing:-.01em}
+.gate-quote p b{color:var(--lime);font-weight:600}
+.gate-quote .gq-tag{display:inline-flex;align-items:center;gap:9px;font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--lime);margin-bottom:14px}
+.gate-quote .gq-tag::before{content:'';width:22px;height:1.5px;background:var(--lime)}
+.gate-panel{position:relative;display:flex;flex-direction:column;justify-content:center;padding:56px clamp(36px,5vw,84px);background:var(--navy-deep);border-left:1px solid var(--border);overflow-y:auto}
+.gate-panel .mark{font-size:23px;margin-bottom:auto;padding-top:8px}
+.gate-body{margin:48px 0 auto}
+.gate-kicker{display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--lime)}
+.gate-kicker::before{content:'';width:24px;height:1.5px;background:var(--lime)}
+.gate-body h1{font-size:clamp(30px,3.2vw,44px);margin:16px 0 0;line-height:1.06}
+.gate-body .sub{color:var(--subtle2);font-size:15.5px;margin-top:16px;max-width:440px}
+.gate-form{margin-top:34px;max-width:460px}
+.gate-form label{display:block;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--subtle);margin-bottom:10px}
+.gate-field{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:14px;padding:0 18px;transition:.25s}
+.gate-field:focus-within{border-color:var(--lime);background:rgba(229,242,36,.05);box-shadow:0 0 0 4px rgba(229,242,36,.08)}
+.gate-field .ic{font-size:18px;color:var(--olive)}
+.gate-field input{flex:1;background:none;border:0;outline:0;color:#fff;font-family:inherit;font-size:16px;font-weight:300;padding:17px 0;min-width:0}
+.gate-field input::placeholder{color:#5c6f83}
+.gate-form .btn{width:100%;margin-top:14px;padding:17px}
+.gate-err{display:none;margin-top:12px;font-size:13.5px;color:#ffb4b4;align-items:center;gap:8px}
+.gate-err.show{display:flex}
+.gate-note{display:flex;gap:10px;margin-top:22px;font-size:12.5px;color:var(--body);max-width:440px;line-height:1.55}
+.gate-note .ic{font-size:15px;color:var(--olive);margin-top:2px}
+.gate-foot{padding-top:40px;font-size:12px;color:#5c6f83;display:flex;gap:16px;flex-wrap:wrap}
+.gate-vehicles{display:flex;gap:10px;margin-top:30px}
+.gate-vehicles span{width:46px;height:46px;border-radius:12px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--olive);font-size:22px;transition:.3s}
+.gate-vehicles span:hover{border-color:var(--lime);color:var(--lime);transform:translateY(-3px)}
+@media(max-width:900px){
+  body.gated #gate{grid-template-columns:1fr;grid-template-rows:34svh 1fr}
+  .gate-quote{padding:22px 24px}
+  .gate-quote p{font-size:15px;max-width:none}
+  .gate-quote .gq-tag{margin-bottom:8px}
+  .gate-panel{border-left:0;border-top:1px solid var(--border);padding:36px 24px 26px}
+  .gate-panel .mark{display:none}
+  .gate-body{margin:0 0 auto}
+  .gate-foot{padding-top:26px}
+  .gate-vehicles{margin-top:22px}
+}
+
+/* ================= PRELOADER ================= */
+#loader{position:fixed;inset:0;z-index:1200;background:var(--navy-deep);display:none;align-items:center;justify-content:center;overflow:hidden}
+#loader.show{display:flex}
+#loader.hide{animation:ldout .7s ease forwards}
+@keyframes ldout{to{opacity:0;visibility:hidden}}
+.ld-inner{width:min(680px,90vw);text-align:center;position:relative;z-index:2}
+.ld-kicker{font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--olive)}
+.ld-title{font-size:clamp(21px,3.2vw,32px);font-weight:700;letter-spacing:-.02em;margin-top:10px;min-height:1.3em}
+.ld-title b{color:var(--lime);font-weight:700}
+.ld-stage{position:relative;height:150px;margin:26px 0 6px}
+.ld-veh{position:absolute;bottom:26px;left:-160px;width:130px;animation:drive 2.6s cubic-bezier(.45,.05,.55,.95) forwards}
+.ld-veh svg{width:100%;height:auto;display:block;animation:jiggle .38s ease-in-out infinite}
+.ld-veh.boat svg{animation:float 1.6s ease-in-out infinite}
+@keyframes drive{0%{left:-160px}45%{left:calc(50% - 65px)}62%{left:calc(50% - 65px)}100%{left:calc(100% + 40px)}}
+@keyframes jiggle{0%,100%{transform:translateY(0)}50%{transform:translateY(-2.5px)}}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-1.6deg)}50%{transform:translateY(-6px) rotate(1.6deg)}}
+.ld-road{position:absolute;left:0;right:0;bottom:18px;height:2px;background:var(--navy-line)}
+.ld-road i{position:absolute;inset:0;background:repeating-linear-gradient(90deg,var(--lime) 0 26px,transparent 26px 56px);animation:roadmove .5s linear infinite;opacity:.85}
+@keyframes roadmove{to{transform:translateX(-56px)}}
+.ld-waves{position:absolute;left:0;right:0;bottom:8px;height:26px;display:none;color:var(--navy-line)}
+.ld-waves svg{width:200%;height:100%;animation:wavemove 2.4s linear infinite}
+@keyframes wavemove{to{transform:translateX(-50%)}}
+#loader.sea .ld-road{display:none}
+#loader.sea .ld-waves{display:block}
+.ld-bar{height:3px;border-radius:3px;background:var(--navy-line);overflow:hidden;margin-top:22px}
+.ld-bar i{display:block;height:100%;width:0;background:var(--lime);border-radius:3px;animation:ldbar 3.2s cubic-bezier(.3,.6,.4,1) forwards}
+@keyframes ldbar{to{width:100%}}
+.ld-city{position:absolute;inset:auto 0 0 0;height:34vh;background:linear-gradient(transparent,rgba(229,242,36,.045));pointer-events:none}
+@media(prefers-reduced-motion:reduce){.ld-veh{animation-duration:.01ms}.ld-bar i{animation-duration:.4s}}
 </style>
 </head>
 <body>
@@ -327,8 +406,64 @@ footer{border-top:1px solid var(--border);padding:38px 0 32px;font-size:13px;col
   <symbol id="i-scale" viewBox="0 0 24 24"><path d="M12 3v18M7 21h10"/><path d="M5 8h14M5 8l-3 6h6L5 8zM19 8l-3 6h6l-3-6z"/></symbol>
   <symbol id="i-mega" viewBox="0 0 24 24"><path d="M3 10v4a1 1 0 0 0 1 1h3l6 4V5L7 9H4a1 1 0 0 0-1 1z"/><path d="M17.5 8.5a5 5 0 0 1 0 7"/></symbol>
   <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18z"/></symbol>
+  <symbol id="v-taxi-mini" viewBox="0 0 24 24"><path d="M4 16v-3.5a2 2 0 0 1 .2-.9L6 8.4A2 2 0 0 1 7.8 7.2h8.4A2 2 0 0 1 18 8.4l1.8 3.2a2 2 0 0 1 .2.9V16"/><path d="M3.5 16h17"/><circle cx="7.5" cy="17" r="1.6"/><circle cx="16.5" cy="17" r="1.6"/><path d="M10 7V5.5h4V7"/></symbol>
+  <symbol id="v-truck-mini" viewBox="0 0 24 24"><rect x="2" y="7" width="12" height="8" rx="1"/><path d="M14 10h4l3 3v2h-3"/><circle cx="7" cy="17" r="1.7"/><circle cx="17.5" cy="17" r="1.7"/><path d="M9 17h6.2"/></symbol>
+  <symbol id="v-moto-mini" viewBox="0 0 24 24"><circle cx="5.5" cy="16.5" r="3"/><circle cx="18.5" cy="16.5" r="3"/><path d="M5.5 16.5l3.5-6h4l2 4h3.5"/><path d="M11.5 7.5h3l1.5 3"/></symbol>
+  <symbol id="v-boat-mini" viewBox="0 0 24 24"><path d="M3 14h18l-2.5 4h-13L3 14z"/><path d="M7 14V9h6l3 5"/><path d="M10 9V6"/></symbol>
 </svg>
 
+<!-- ========== GATE: acceso por correo ========== -->
+<div id="gate" role="dialog" aria-label="Acceso al Data Room">
+  <div class="gate-visual">
+    <img src="img/fleet.jpg" alt="Vehículos productivos">
+    <div class="gate-quote">
+      <span class="gq-tag">Crédito para vehículos productivos</span>
+      <p>Financiamos las máquinas que <b>mueven la economía</b>: taxis, camiones, motos y embarcaciones que trabajan todos los días.</p>
+    </div>
+  </div>
+  <div class="gate-panel">
+    <span class="mark">stark<i>apital</i></span>
+    <div class="gate-body">
+      <span class="gate-kicker">Data Room 2026 · Solo inversionistas</span>
+      <h1>Bienvenido al<br><em style="font-style:normal;color:var(--lime)">Data Room</em>.</h1>
+      <p class="sub">Este espacio es de acceso exclusivo para inversionistas. Ingrese su correo corporativo para continuar.</p>
+      <form class="gate-form" id="gateForm" novalidate>
+        <label for="gateEmail">Correo electrónico</label>
+        <div class="gate-field">
+          <svg class="ic"><use href="#i-mail"/></svg>
+          <input type="email" id="gateEmail" name="email" placeholder="nombre@compania.com" autocomplete="email" inputmode="email" required>
+        </div>
+        <button type="submit" class="btn btn-p">Ingresar al Data Room <svg class="ic"><use href="#i-arrow"/></svg></button>
+        <p class="gate-err" id="gateErr"><svg class="ic"><use href="#i-alert"/></svg> Ingrese un correo válido para continuar.</p>
+      </form>
+      <p class="gate-note"><svg class="ic"><use href="#i-lock"/></svg> Información confidencial. Al ingresar, usted acepta tratar el contenido de este Data Room bajo reserva y usarlo únicamente con fines de evaluación de inversión.</p>
+      <div class="gate-vehicles" aria-hidden="true">
+        <span><svg class="ic"><use href="#v-taxi-mini"/></svg></span>
+        <span><svg class="ic"><use href="#v-truck-mini"/></svg></span>
+        <span><svg class="ic"><use href="#v-moto-mini"/></svg></span>
+        <span><svg class="ic"><use href="#v-boat-mini"/></svg></span>
+      </div>
+    </div>
+    <div class="gate-foot"><span>Bogotá, Colombia</span><span>·</span><span>starkapital.com</span></div>
+  </div>
+</div>
+
+<!-- ========== PRELOADER ========== -->
+<div id="loader" aria-hidden="true">
+  <div class="ld-city"></div>
+  <div class="ld-inner">
+    <span class="ld-kicker">starkapital</span>
+    <div class="ld-title" id="ldTitle"></div>
+    <div class="ld-stage">
+      <div class="ld-veh" id="ldVeh"></div>
+      <div class="ld-road"><i></i></div>
+      <div class="ld-waves"><svg viewBox="0 0 1200 26" preserveAspectRatio="none" fill="none" stroke="currentColor" stroke-width="2"><path d="M0 13 Q 37 0 75 13 T 150 13 T 225 13 T 300 13 T 375 13 T 450 13 T 525 13 T 600 13 T 675 13 T 750 13 T 825 13 T 900 13 T 975 13 T 1050 13 T 1125 13 T 1200 13"/></svg></div>
+    </div>
+    <div class="ld-bar"><i></i></div>
+  </div>
+</div>
+
+<div id="page">
 <header id="hdr">
   <nav class="nav">
     <a href="#top" class="mark">stark<i>apital</i></a>
@@ -662,8 +797,86 @@ footer{border-top:1px solid var(--border);padding:38px 0 32px;font-size:13px;col
 <div class="mcta" id="mcta">
   <a href="#" class="btn btn-p js-wa"><svg class="ic"><use href="#i-wa"/></svg> Agendar reunión por WhatsApp</a>
 </div>
+</div><!-- /#page -->
 
 <script>
+/* ================= GATE + PRELOADER ================= */
+(function(){
+  const NAVY='#0f1e32',LIME='#e5f224',OLIVE='#b2bf00',LINE='#1e3450',W='#fff';
+  const VEHICLES=[
+    {key:'taxi',sea:false,msg:'Un <b>taxi</b> productivo entra en operación…',svg:
+`<svg viewBox="0 0 130 62" fill="none">
+  <rect x="34" y="8" width="42" height="20" rx="7" fill="${NAVY}" stroke="${LIME}" stroke-width="2.5"/>
+  <rect x="47" y="2" width="16" height="8" rx="2" fill="${LIME}"/>
+  <path d="M8 40c0-7 5-13 12-14l14-13c3-3 7-4 11-4h34c4 0 8 1 11 4l14 13c7 1 12 7 12 14v6a4 4 0 0 1-4 4H12a4 4 0 0 1-4-4v-6z" fill="${LIME}"/>
+  <path d="M42 14h20v12H30l12-12zM68 14h14l12 12H68V14z" fill="${NAVY}"/>
+  <rect x="8" y="40" width="108" height="5" fill="${NAVY}" opacity=".18"/>
+  <rect x="14" y="43" width="14" height="4" rx="2" fill="${NAVY}"/>
+  <rect x="102" y="43" width="8" height="4" rx="2" fill="${NAVY}"/>
+  <circle cx="36" cy="50" r="9" fill="${NAVY}"/><circle cx="36" cy="50" r="4" fill="${LIME}"/>
+  <circle cx="92" cy="50" r="9" fill="${NAVY}"/><circle cx="92" cy="50" r="4" fill="${LIME}"/>
+</svg>`},
+    {key:'truck',sea:false,msg:'Un <b>camión</b> de carga sale a ruta…',svg:
+`<svg viewBox="0 0 150 62" fill="none">
+  <rect x="4" y="6" width="86" height="38" rx="4" fill="${NAVY}" stroke="${LIME}" stroke-width="2.5"/>
+  <path d="M14 25h28M14 32h20" stroke="${LIME}" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M90 16h26c3 0 6 1.5 8 4l9 12c1.5 2 2 4 2 6v6h-45V16z" fill="${LIME}"/>
+  <path d="M96 21h17l8 11H96V21z" fill="${NAVY}"/>
+  <rect x="4" y="44" width="141" height="4" fill="${NAVY}" opacity=".18"/>
+  <circle cx="30" cy="50" r="9" fill="${NAVY}"/><circle cx="30" cy="50" r="4" fill="${LIME}"/>
+  <circle cx="62" cy="50" r="9" fill="${NAVY}"/><circle cx="62" cy="50" r="4" fill="${LIME}"/>
+  <circle cx="118" cy="50" r="9" fill="${NAVY}"/><circle cx="118" cy="50" r="4" fill="${LIME}"/>
+</svg>`},
+    {key:'moto',sea:false,msg:'Una <b>moto</b> de trabajo arranca su jornada…',svg:
+`<svg viewBox="0 0 120 62" fill="none">
+  <circle cx="24" cy="46" r="13" fill="none" stroke="${NAVY}" stroke-width="6"/>
+  <circle cx="24" cy="46" r="4.5" fill="${LIME}"/>
+  <circle cx="96" cy="46" r="13" fill="none" stroke="${NAVY}" stroke-width="6"/>
+  <circle cx="96" cy="46" r="4.5" fill="${LIME}"/>
+  <path d="M24 46l16-22h22l12 18h22" stroke="${LIME}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <path d="M40 24l-8-8h-10" stroke="${NAVY}" stroke-width="5" stroke-linecap="round" fill="none"/>
+  <rect x="52" y="16" width="22" height="9" rx="4.5" fill="${NAVY}"/>
+  <path d="M74 20l14 4" stroke="${NAVY}" stroke-width="5" stroke-linecap="round"/>
+</svg>`},
+    {key:'boat',sea:true,msg:'Una <b>embarcación</b> productiva zarpa…',svg:
+`<svg viewBox="0 0 140 62" fill="none">
+  <path d="M8 34h124l-14 20H22L8 34z" fill="${LIME}"/>
+  <path d="M8 34h124l-3.5 5H11.5L8 34z" fill="${NAVY}" opacity=".18"/>
+  <rect x="42" y="16" width="44" height="18" rx="3" fill="${NAVY}" stroke="${LIME}" stroke-width="2.5"/>
+  <rect x="50" y="21" width="9" height="7" rx="1.5" fill="${LIME}"/>
+  <rect x="66" y="21" width="9" height="7" rx="1.5" fill="${LIME}"/>
+  <rect x="90" y="8" width="7" height="26" rx="2" fill="${NAVY}"/>
+  <path d="M60 16V6h3v10" fill="${NAVY}"/><path d="M63 6l12 5-12 5V6z" fill="${LIME}"/>
+</svg>`}
+  ];
+  const gate=document.getElementById('gate'),form=document.getElementById('gateForm'),
+        email=document.getElementById('gateEmail'),err=document.getElementById('gateErr'),
+        loader=document.getElementById('loader'),veh=document.getElementById('ldVeh'),
+        title=document.getElementById('ldTitle');
+  const KEY='sk_dr_email';
+  if(!sessionStorage.getItem(KEY)){document.body.classList.add('gated')}
+  form.addEventListener('submit',e=>{
+    e.preventDefault();
+    const v=email.value.trim();
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)){err.classList.add('show');email.focus();return}
+    err.classList.remove('show');
+    try{sessionStorage.setItem(KEY,v)}catch(_){}
+    const V=VEHICLES[Math.floor(Math.random()*VEHICLES.length)];
+    veh.innerHTML=V.svg;veh.className='ld-veh'+(V.sea?' boat':'');
+    loader.classList.toggle('sea',V.sea);
+    title.innerHTML=V.msg;
+    gate.style.display='none';
+    loader.classList.add('show');
+    setTimeout(()=>{title.innerHTML='Bienvenido a <b>starkapital</b>.'},2650);
+    setTimeout(()=>{
+      loader.classList.add('hide');
+      document.body.classList.remove('gated');
+      window.scrollTo(0,0);
+      setTimeout(()=>{loader.classList.remove('show','hide')},750);
+    },3450);
+  });
+})();
+
 /* ---- WhatsApp ---- */
 const WA='https://wa.me/573225974954?text='+encodeURIComponent('Hola, vengo del Data Room 2026 de Starkapital y quisiera agendar una reunión.');
 document.querySelectorAll('.js-wa').forEach(a=>{a.href=WA;a.target='_blank';a.rel='noopener'});
