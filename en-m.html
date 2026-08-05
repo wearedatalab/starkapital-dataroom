@@ -282,11 +282,11 @@ button.uavatar:hover{box-shadow:0 0 0 4px rgba(229,242,36,.15)}
 .rv.in{opacity:1;transform:none}
 
 /* ---------- RESPONSIVE ---------- */
-@media(max-width:1080px){
+@media all{
   .diffs{grid-template-columns:repeat(2,1fr)}
   .split{grid-template-columns:1fr;gap:36px}
 }
-@media(max-width:900px){
+@media all{
   :root{--sec:56px;--pad:20px}
   .navlinks,.nav .cta{display:none}
   .burger{display:flex}
@@ -317,7 +317,7 @@ button.uavatar:hover{box-shadow:0 0 0 4px rgba(229,242,36,.15)}
   .dg summary{padding:18px 20px}
   .dg .items{padding:0 20px 18px}
 }
-@media(max-width:600px){
+@media all{
   .diffs{grid-template-columns:1fr}
   .hero-strip{grid-template-columns:1fr}
   .hero-strip div{display:flex;align-items:baseline;gap:12px;padding:15px 18px}
@@ -381,7 +381,7 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
 .gate-vehicles{display:flex;gap:10px;margin-top:30px}
 .gate-vehicles span{width:46px;height:46px;border-radius:12px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--olive);font-size:22px;transition:.3s}
 .gate-vehicles span:hover{border-color:var(--lime);color:var(--lime);transform:translateY(-3px)}
-@media(max-width:900px){
+@media all{
   body.gated #gate{grid-template-columns:1fr;grid-template-rows:30svh minmax(0,1fr)}
   .gate-quote{padding:14px 20px 12px;background:linear-gradient(transparent,rgba(10,21,36,.97))}
   .gate-quote p{font-size:13.5px;max-width:none;line-height:1.4}
@@ -466,10 +466,10 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
 .arow .adel:hover{color:#ffb4b4;background:rgba(255,120,120,.08)}
 .arow.isadmin .adel{visibility:hidden}
 .arow .atag{font-size:9.5px;font-weight:700;letter-spacing:.1em;color:var(--navy);background:var(--lime);border-radius:100px;padding:2px 8px;flex:none}
-@media(max-width:600px){.amodal-form{grid-template-columns:1fr}.amodal-card{padding:22px}}
+@media all{.amodal-form{grid-template-columns:1fr}.amodal-card{padding:22px}}
 @media(prefers-reduced-motion:reduce){.ld-veh{animation-duration:.01ms}.ld-bar i{animation-duration:.4s}}
 </style>
-<script>if(Math.min(screen.width,window.innerWidth||9999)<820&&!/[?&]desktop/.test(location.search))location.replace("en-m.html"+location.hash)</script>
+<script>if(Math.min(screen.width,window.innerWidth||0)>=820)location.replace("en.html?desktop"+location.hash)</script>
 </head>
 <body>
 <div id="prog"></div>
@@ -535,7 +535,7 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
     </div>
   </div>
   <div class="gate-panel">
-    <div class="lang-gate"><a href="index.html" title="Versión en español">ES</a><a href="en.html" class="on">EN</a></div>
+    <div class="lang-gate"><a href="m.html" title="Versión en español">ES</a><a href="en-m.html" class="on">EN</a></div>
     <span class="mark">stark<i>apital</i></span>
     <div class="gate-body">
       <span class="gate-kicker">Data Room 2026 · Investors only</span>
@@ -615,7 +615,7 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
       <a href="#documentos">Documents</a>
     </div>
     <div class="navright">
-      <div class="lang2"><a href="index.html">ES</a><a href="en.html" class="on">EN</a></div>
+      <div class="lang2"><a href="m.html">ES</a><a href="en-m.html" class="on">EN</a></div>
       <a href="#" class="cta js-wa"><svg class="ic"><use href="#i-wa"/></svg> Schedule a meeting</a>
       <div class="umenu">
         <button class="uavatar" id="uavatar" aria-label="Account" aria-haspopup="true">·</button>

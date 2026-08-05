@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0f1e32">
 <title>Starkapital · Data Room 2026</title>
-<meta name="description" content="Starkapital Data Room 2026 — next-generation infrastructure for TradeFi, leveraged on artificial intelligence.">
+<meta name="description" content="Data Room 2026 de Starkapital — infraestructura de próxima generación para el TradeFi apalancada en inteligencia artificial.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700;800&family=MuseoModerno:wght@600;700&display=swap" rel="stylesheet">
@@ -282,11 +282,11 @@ button.uavatar:hover{box-shadow:0 0 0 4px rgba(229,242,36,.15)}
 .rv.in{opacity:1;transform:none}
 
 /* ---------- RESPONSIVE ---------- */
-@media(max-width:1080px){
+@media all{
   .diffs{grid-template-columns:repeat(2,1fr)}
   .split{grid-template-columns:1fr;gap:36px}
 }
-@media(max-width:900px){
+@media all{
   :root{--sec:56px;--pad:20px}
   .navlinks,.nav .cta{display:none}
   .burger{display:flex}
@@ -317,7 +317,7 @@ button.uavatar:hover{box-shadow:0 0 0 4px rgba(229,242,36,.15)}
   .dg summary{padding:18px 20px}
   .dg .items{padding:0 20px 18px}
 }
-@media(max-width:600px){
+@media all{
   .diffs{grid-template-columns:1fr}
   .hero-strip{grid-template-columns:1fr}
   .hero-strip div{display:flex;align-items:baseline;gap:12px;padding:15px 18px}
@@ -381,7 +381,7 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
 .gate-vehicles{display:flex;gap:10px;margin-top:30px}
 .gate-vehicles span{width:46px;height:46px;border-radius:12px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--olive);font-size:22px;transition:.3s}
 .gate-vehicles span:hover{border-color:var(--lime);color:var(--lime);transform:translateY(-3px)}
-@media(max-width:900px){
+@media all{
   body.gated #gate{grid-template-columns:1fr;grid-template-rows:30svh minmax(0,1fr)}
   .gate-quote{padding:14px 20px 12px;background:linear-gradient(transparent,rgba(10,21,36,.97))}
   .gate-quote p{font-size:13.5px;max-width:none;line-height:1.4}
@@ -466,10 +466,10 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
 .arow .adel:hover{color:#ffb4b4;background:rgba(255,120,120,.08)}
 .arow.isadmin .adel{visibility:hidden}
 .arow .atag{font-size:9.5px;font-weight:700;letter-spacing:.1em;color:var(--navy);background:var(--lime);border-radius:100px;padding:2px 8px;flex:none}
-@media(max-width:600px){.amodal-form{grid-template-columns:1fr}.amodal-card{padding:22px}}
+@media all{.amodal-form{grid-template-columns:1fr}.amodal-card{padding:22px}}
 @media(prefers-reduced-motion:reduce){.ld-veh{animation-duration:.01ms}.ld-bar i{animation-duration:.4s}}
 </style>
-<script>if(Math.min(screen.width,window.innerWidth||9999)<820&&!/[?&]desktop/.test(location.search))location.replace("en-m.html"+location.hash)</script>
+<script>if(Math.min(screen.width,window.innerWidth||0)>=820)location.replace("index.html?desktop"+location.hash)</script>
 </head>
 <body>
 <div id="prog"></div>
@@ -520,42 +520,42 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
 </svg>
 
 <!-- ========== GATE: acceso por correo ========== -->
-<div id="gate" role="dialog" aria-label="Data Room access">
+<div id="gate" role="dialog" aria-label="Acceso al Data Room">
   <div class="gate-visual">
     <div class="gcar">
-      <img src="img/fleet.jpg" alt="Productive taxi" class="on">
-      <img src="img/moto.jpg" alt="Working motorcycle" loading="lazy">
-      <img src="img/camion.jpg" alt="Cargo truck" loading="lazy">
-      <img src="img/maquinaria.jpg" alt="Yellow machinery" loading="lazy">
+      <img src="img/fleet.jpg" alt="Taxi productivo" class="on">
+      <img src="img/moto.jpg" alt="Moto de trabajo" loading="lazy">
+      <img src="img/camion.jpg" alt="Camión de carga" loading="lazy">
+      <img src="img/maquinaria.jpg" alt="Maquinaria amarilla" loading="lazy">
     </div>
     <div class="gate-quote">
-      <span class="gq-tag">Credit for productive vehicles</span>
-      <p id="gqText">We finance the <b>taxis</b> that move the city every day.</p>
+      <span class="gq-tag">Crédito para vehículos productivos</span>
+      <p id="gqText">Financiamos los <b>taxis</b> que mueven la ciudad todos los días.</p>
       <div class="gq-dots" id="gqDots"></div>
     </div>
   </div>
   <div class="gate-panel">
-    <div class="lang-gate"><a href="index.html" title="Versión en español">ES</a><a href="en.html" class="on">EN</a></div>
+    <div class="lang-gate"><a href="m.html" class="on">ES</a><a href="en-m.html" title="English version">EN</a></div>
     <span class="mark">stark<i>apital</i></span>
     <div class="gate-body">
-      <span class="gate-kicker">Data Room 2026 · Investors only</span>
-      <h1>Welcome to the<br><em style="font-style:normal;color:var(--lime)">Data Room</em>.</h1>
-      <p class="sub">This space is for investors only. Enter the username (email) and password provided by the administrator.</p>
+      <span class="gate-kicker">Data Room 2026 · Solo inversionistas</span>
+      <h1>Bienvenido al<br><em style="font-style:normal;color:var(--lime)">Data Room</em>.</h1>
+      <p class="sub">Este espacio es de acceso exclusivo para inversionistas. Ingrese el usuario (correo) y la clave entregados por el administrador.</p>
       <form class="gate-form" id="gateForm" novalidate>
-        <label for="gateEmail">Email address</label>
+        <label for="gateEmail">Correo electrónico</label>
         <div class="gate-field">
           <svg class="ic"><use href="#i-mail"/></svg>
-          <input type="email" id="gateEmail" name="email" placeholder="name@company.com" autocomplete="email" inputmode="email" required>
+          <input type="email" id="gateEmail" name="email" placeholder="nombre@compania.com" autocomplete="email" inputmode="email" required>
         </div>
-        <label for="gatePass" style="margin-top:16px">Password</label>
+        <label for="gatePass" style="margin-top:16px">Clave</label>
         <div class="gate-field">
           <svg class="ic"><use href="#i-lock"/></svg>
-          <input type="password" id="gatePass" name="password" placeholder="Your access password" autocomplete="current-password" required>
+          <input type="password" id="gatePass" name="password" placeholder="Su clave de acceso" autocomplete="current-password" required>
         </div>
-        <button type="submit" class="btn btn-p">Enter the Data Room <svg class="ic"><use href="#i-arrow"/></svg></button>
-        <p class="gate-err" id="gateErr"><svg class="ic"><use href="#i-alert"/></svg> <span id="gateErrMsg">Enter a valid email address to continue.</span></p>
+        <button type="submit" class="btn btn-p">Ingresar al Data Room <svg class="ic"><use href="#i-arrow"/></svg></button>
+        <p class="gate-err" id="gateErr"><svg class="ic"><use href="#i-alert"/></svg> <span id="gateErrMsg">Ingrese un correo válido para continuar.</span></p>
       </form>
-      <p class="gate-note"><svg class="ic"><use href="#i-lock"/></svg> Confidential information. By entering, you agree to treat the contents of this Data Room as confidential and to use them solely for investment evaluation purposes.</p>
+      <p class="gate-note"><svg class="ic"><use href="#i-lock"/></svg> Información confidencial. Al ingresar, usted acepta tratar el contenido de este Data Room bajo reserva y usarlo únicamente con fines de evaluación de inversión.</p>
       <div class="gate-vehicles" aria-hidden="true">
         <span><svg class="ic"><use href="#v-taxi-mini"/></svg></span>
         <span><svg class="ic"><use href="#v-truck-mini"/></svg></span>
@@ -586,14 +586,14 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
 <div id="adminModal" class="amodal" hidden>
   <div class="amodal-card">
     <div class="amodal-head">
-      <h3><svg class="ic"><use href="#i-users"/></svg> Authorized investors</h3>
-      <button class="amodal-x" id="adminClose" aria-label="Close">✕</button>
+      <h3><svg class="ic"><use href="#i-users"/></svg> Inversionistas autorizados</h3>
+      <button class="amodal-x" id="adminClose" aria-label="Cerrar">✕</button>
     </div>
-    <p class="amodal-sub">Create investors with a username (email) and an auto-generated password. You can reset a user’s password or delete the user. Changes are saved in this browser.</p>
+    <p class="amodal-sub">Cree inversionistas con usuario (correo) y clave generada automáticamente. Puede reiniciar la clave de un usuario o eliminarlo. Los cambios se guardan en este navegador.</p>
     <form class="amodal-form" id="adminForm" novalidate>
-      <input type="text" id="advName" placeholder="Full name" autocomplete="off">
-      <input type="email" id="advEmail" placeholder="email@company.com" autocomplete="off">
-      <button type="submit" class="btn btn-p">Add</button>
+      <input type="text" id="advName" placeholder="Nombre completo" autocomplete="off">
+      <input type="email" id="advEmail" placeholder="correo@compania.com" autocomplete="off">
+      <button type="submit" class="btn btn-p">Agregar</button>
     </form>
     <p class="amodal-err" id="adminErr"></p>
     <div class="akey" id="adminKey" hidden></div>
@@ -607,25 +607,25 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
     <a href="#top" class="mark">stark<i>apital</i></a>
     <div class="navlinks">
       <div class="m-user"><span class="uavatar" id="mavatar">·</span><span><b id="mname">—</b><small id="memail">—</small></span></div>
-      <a href="#compania">Company</a>
-      <a href="#problema">Problem</a>
-      <a href="#traccion">Traction</a>
-      <a href="#diferenciacion">Differentiation</a>
+      <a href="#compania">Compañía</a>
+      <a href="#problema">Problema</a>
+      <a href="#traccion">Tracción</a>
+      <a href="#diferenciacion">Diferenciación</a>
       <a href="#highlights">Highlights</a>
-      <a href="#documentos">Documents</a>
+      <a href="#documentos">Documentos</a>
     </div>
     <div class="navright">
-      <div class="lang2"><a href="index.html">ES</a><a href="en.html" class="on">EN</a></div>
-      <a href="#" class="cta js-wa"><svg class="ic"><use href="#i-wa"/></svg> Schedule a meeting</a>
+      <div class="lang2"><a href="m.html" class="on">ES</a><a href="en-m.html">EN</a></div>
+      <a href="#" class="cta js-wa"><svg class="ic"><use href="#i-wa"/></svg> Agendar reunión</a>
       <div class="umenu">
-        <button class="uavatar" id="uavatar" aria-label="Account" aria-haspopup="true">·</button>
+        <button class="uavatar" id="uavatar" aria-label="Cuenta" aria-haspopup="true">·</button>
         <div class="udrop" id="udrop" hidden>
           <div class="udrop-id"><b id="uname">—</b><small id="uemail">—</small></div>
-          <button class="udrop-item" id="uadmin" hidden><svg class="ic"><use href="#i-users"/></svg> Investors</button>
-          <button class="udrop-item" id="ulogout"><svg class="ic"><use href="#i-logout"/></svg> Log out</button>
+          <button class="udrop-item" id="uadmin" hidden><svg class="ic"><use href="#i-users"/></svg> Inversionistas</button>
+          <button class="udrop-item" id="ulogout"><svg class="ic"><use href="#i-logout"/></svg> Cerrar sesión</button>
         </div>
       </div>
-      <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false">
+      <button class="burger" id="burger" aria-label="Abrir menú" aria-expanded="false">
         <svg width="18" height="12" viewBox="0 0 18 12" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M0 1h18M0 6h18M0 11h18"/></svg>
       </button>
     </div>
@@ -636,18 +636,18 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
 <div class="hero" id="top">
   <div class="hero-bg"></div>
   <div class="wrap">
-    <span class="eyebrow">Data Room · 2026 · Confidential</span>
-    <h1>The next-generation<br>infrastructure<br>for <em>TradeFi</em>.</h1>
-    <p class="lede">Welcome to our Data Room. Here we have consolidated all of Starkapital’s relevant information and documentation, to give you a clear, structured and transparent view of the company as we build traditional finance powered by artificial intelligence.</p>
+    <span class="eyebrow">Data Room · 2026 · Confidencial</span>
+    <h1>La infraestructura de<br>próxima generación<br>para el <em>TradeFi</em>.</h1>
+    <p class="lede">Bienvenido a nuestro Data Room. Hemos consolidado aquí toda la información y documentación relevante de Starkapital, para ofrecerle una visión clara, estructurada y transparente de la compañía mientras construimos finanzas tradicionales apoyadas en inteligencia artificial.</p>
     <div class="hero-cta">
-      <a href="#" class="btn btn-p js-wa"><svg class="ic"><use href="#i-wa"/></svg> Schedule a meeting</a>
-      <a href="#documentos" class="btn btn-s"><svg class="ic"><use href="#i-folder"/></svg> Explore documents</a>
+      <a href="#" class="btn btn-p js-wa"><svg class="ic"><use href="#i-wa"/></svg> Agendar reunión</a>
+      <a href="#documentos" class="btn btn-s"><svg class="ic"><use href="#i-folder"/></svg> Explorar documentos</a>
     </div>
     <div class="hero-strip">
-      <div><b data-count="1290" data-pre="$" data-suf="M">$0M</b><span>Active portfolio (AUM) COP</span></div>
-      <div><b data-count="0" data-suf="%">0%</b><span>Historical loss rate</span></div>
-      <div><b data-count="7">0</b><span>Team members</span></div>
-      <div><b data-count="100" data-suf="%">0%</b><span>Recovery rate</span></div>
+      <div><b data-count="1290" data-pre="$" data-suf="M">$0M</b><span>Cartera activa (AUM) COP</span></div>
+      <div><b data-count="0" data-suf="%">0%</b><span>Siniestralidad histórica</span></div>
+      <div><b data-count="7">0</b><span>Personas en el equipo</span></div>
+      <div><b data-count="100" data-suf="%">0%</b><span>Tasa de recuperación</span></div>
     </div>
   </div>
   <svg class="ic scroll-hint"><use href="#i-down"/></svg>
@@ -657,27 +657,27 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
 <section id="compania">
   <div class="wrap">
     <div class="sec-head rv">
-      <span class="eyebrow">About Starkapital</span>
-      <h2>A <em>deliberately efficient</em> financial operation, leveraged on artificial intelligence.</h2>
+      <span class="eyebrow">Acerca de Starkapital</span>
+      <h2>Una operación financiera <em>deliberadamente eficiente</em>, apalancada en inteligencia artificial.</h2>
     </div>
     <div class="split">
       <div class="prose rv">
-        <p>We are not trying to disrupt a market: players with similar functions already exist in our space. Our thesis is to compete from a different advantage: <strong>a light operating structure, intensive AI automation and a cost per processed unit significantly lower than our competitors’.</strong></p>
-        <p>That combination —less friction, fewer hands, more automation— is what sustains superior profit margins and lets us scale without growing headcount.</p>
-        <p>Starkapital does not stand out for being the first to offer its functions, but for executing them with a <strong>radical efficiency</strong> that redefines the traditional operating model: where competitors require massive structures, we operate with a minimal team and integrated AI models that execute, supervise and optimize every process.</p>
-        <p>Automating “the hard part” lets us drastically reduce costs, accelerate response times and raise the service standard: our people are freed from the technical load to focus on personalized, empathetic, high-fidelity attention. We thus achieve a scalability where <strong>volume grows without increasing costs</strong>.</p>
+        <p>No pretendemos disrumpir un mercado: en nuestro espacio ya existen actores que cumplen funciones similares. Nuestra tesis es competir desde una ventaja distinta: <strong>una estructura operativa ligera, alta automatización con IA y un costo por unidad procesada significativamente menor al de la competencia.</strong></p>
+        <p>Esa combinación —menos fricción, menos manos, más automatización— es la que sostiene márgenes de rentabilidad superiores y nos permite escalar sin engrosar la planta.</p>
+        <p>Starkapital no se diferencia por ser el primero en ofrecer sus funciones, sino por ejecutarlas con una <strong>eficiencia radical</strong> que redefine el modelo operativo tradicional: donde la competencia requiere estructuras masivas, nosotros operamos con un equipo mínimo y modelos de IA integrados que ejecutan, supervisan y optimizan cada proceso.</p>
+        <p>Esta automatización de «lo difícil» nos permite reducir drásticamente los costos, acelerar los tiempos de respuesta y elevar el estándar de servicio: nuestro talento humano se desprende de la carga técnica para enfocarse en una atención personalizada y empática de alta fidelidad. Logramos así una escalabilidad donde <strong>el volumen crece sin aumentar los costos</strong>.</p>
       </div>
       <div class="rv">
         <dl class="facts">
-          <div><svg class="ic"><use href="#i-users"/></svg><div><dt>The essentials · Team</dt><dd>7 professionals.</dd></div></div>
-          <div><svg class="ic"><use href="#i-pin"/></svg><div><dt>Headquarters</dt><dd>Bogotá, Colombia.</dd></div></div>
-          <div><svg class="ic"><use href="#i-cpu"/></svg><div><dt>Model</dt><dd>Lean operation with intensive AI-based automation to accelerate critical processes and improve margins.</dd></div></div>
-          <div><svg class="ic"><use href="#i-cal"/></svg><div><dt>Operations start</dt><dd>May 2024.</dd></div></div>
-          <div><svg class="ic"><use href="#i-car"/></svg><div><dt>Current focus</dt><dd>Productive mobility — taxi financing with real collateral and telemetry.</dd></div></div>
+          <div><svg class="ic"><use href="#i-users"/></svg><div><dt>Lo esencial · Equipo</dt><dd>7 profesionales.</dd></div></div>
+          <div><svg class="ic"><use href="#i-pin"/></svg><div><dt>Sede</dt><dd>Bogotá, Colombia.</dd></div></div>
+          <div><svg class="ic"><use href="#i-cpu"/></svg><div><dt>Modelo</dt><dd>Operación lean con automatización intensiva basada en IA para acelerar procesos críticos y mejorar márgenes.</dd></div></div>
+          <div><svg class="ic"><use href="#i-cal"/></svg><div><dt>Inicio de operaciones</dt><dd>Mayo de 2024.</dd></div></div>
+          <div><svg class="ic"><use href="#i-car"/></svg><div><dt>Foco actual</dt><dd>Movilidad productiva — financiación de taxis con garantía real y telemetría.</dd></div></div>
         </dl>
         <figure class="figure">
-          <img src="img/team.jpg" alt="Efficient operating structure" loading="lazy">
-          <figcaption>A light structure: seven people operating a volume traditional banking would serve with hundreds.</figcaption>
+          <img src="img/team.jpg" alt="Estructura operativa eficiente" loading="lazy">
+          <figcaption>Una estructura ligera: siete personas operando un volumen que la banca tradicional atendería con cientos.</figcaption>
         </figure>
       </div>
     </div>
@@ -690,102 +690,102 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
 <section id="problema">
   <div class="wrap">
     <div class="sec-head rv">
-      <span class="eyebrow">The problem we solve</span>
-      <h2>A <em>two-way</em> problem in the financial system.</h2>
+      <span class="eyebrow">Problema que resolvemos</span>
+      <h2>Un problema de <em>doble vía</em> en el sistema financiero.</h2>
     </div>
     <div class="grid2">
       <div class="card rv">
         <span class="chip"><svg class="ic"><use href="#i-ban"/></svg></span>
-        <h3>The exclusion of the informal market</h3>
-        <span class="tag">The client</span>
-        <p>Millions of productive people with irregular or informal income flows —like the taxi-driver guild— are “invisible” to traditional banking. Because they don’t fit standard risk models, they are left without access to formal credit to grow.</p>
+        <h3>La exclusión del mercado informal</h3>
+        <span class="tag">El cliente</span>
+        <p>Millones de personas productivas con flujos de ingresos irregulares o informales —como el gremio de taxistas— son «invisibles» para la banca tradicional. Al no encajar en los modelos de riesgo estándar, se quedan sin acceso a crédito formal para crecer.</p>
       </div>
       <div class="card rv">
         <span class="chip alt"><svg class="ic"><use href="#i-layers"/></svg></span>
-        <h3>The operating-cost trap</h3>
-        <span class="tag">The industry</span>
-        <p>Why doesn’t banking serve them? Because in traditional finance, growing is expensive. Every new client or transaction demands more people validating, reconciling and reporting. It is a heavy, slow structure that erodes margins, making it unviable and unprofitable to serve this segment of the population.</p>
+        <h3>La trampa de los costos operativos</h3>
+        <span class="tag">La industria</span>
+        <p>¿Por qué la banca no los atiende? Porque en el sector financiero tradicional crecer es caro. Cada nuevo cliente o transacción exige más personas validando, conciliando y reportando. Es una estructura pesada y lenta que erosiona los márgenes, haciendo inviable y poco rentable atender a este segmento de la población.</p>
       </div>
     </div>
     <div class="solution rv">
       <svg class="ic"><use href="#i-spark"/></svg>
       <div>
-        <h3>How we solve it</h3>
-        <p>Starkapital breaks this barrier. We give these “invisible” clients access to credit by making the model profitable through Artificial Intelligence. We automate reviews, decision rules and reconciliations, so a team of just seven people operates massive volume with immediate response times and a cost per operation that collapses as we grow.</p>
+        <h3>Cómo lo resolvemos</h3>
+        <p>Starkapital rompe esta barrera. Damos acceso a crédito a estos «invisibles» haciendo que el modelo sea rentable a través de Inteligencia Artificial. Automatizamos las revisiones, reglas de decisión y conciliaciones, logrando que un equipo de solo siete personas opere un volumen masivo con tiempos de respuesta inmediatos y un costo por operación que se desploma a medida que crecemos.</p>
       </div>
     </div>
   </div>
 </section>
 
 <div class="band">
-  <img src="img/fleet.jpg" alt="Productive mobility in Bogotá" loading="lazy">
-  <div class="wrap"><q>A portfolio backed <b>1 to 1</b> by productive assets with IoT technology, with a <b>0%</b> loss rate and strictly controlled delinquency.</q></div>
+  <img src="img/fleet.jpg" alt="Movilidad productiva en Bogotá" loading="lazy">
+  <div class="wrap"><q>Cartera respaldada <b>1 a 1</b> por activos productivos con tecnología IoT, con una siniestralidad del <b>0%</b> y mora estrictamente controlada.</q></div>
 </div>
 
 <!-- TRACCIÓN -->
 <section id="traccion">
   <div class="wrap">
     <div class="sec-head rv">
-      <span class="eyebrow">Financial performance &amp; traction</span>
-      <h2>An accelerated growth curve on a <em>structurally healthy spread</em>.</h2>
-      <p>A niche model with high demand and a projected differential of ~10% to 12% between our 28% E.A. origination rate and the target institutional funding cost.</p>
+      <span class="eyebrow">Desempeño y tracción financiera</span>
+      <h2>Una curva de crecimiento acelerada sobre un <em>spread estructuralmente sano</em>.</h2>
+      <p>Modelo de nicho con alta demanda y un diferencial proyectado del ~10% al 12% entre nuestra tasa de originación del 28% E.A. y el costo de fondeo institucional objetivo.</p>
     </div>
 
     <div class="kpis rv">
-      <div class="kpi"><svg class="ic"><use href="#i-chart"/></svg><div class="txt"><b>$1.438<span class="u">M</span></b><span>Cumulative originated portfolio (COP) — capital historically disbursed</span></div></div>
-      <div class="kpi"><svg class="ic"><use href="#i-layers"/></svg><div class="txt"><b>$1.290<span class="u">M</span></b><span>Active portfolio · AUM (COP) — outstanding principal after Q2 2026 disbursements</span></div></div>
-      <div class="kpi"><svg class="ic"><use href="#i-car"/></svg><div class="txt"><b>$55,3<span class="u">M</span></b><span>Average ticket per asset (COP) — current focus: taxis</span></div></div>
-      <div class="kpi"><svg class="ic"><use href="#i-shield"/></svg><div class="txt"><b>100<span class="u">%</span></b><span>Recovery rate · 0% loss rate · delinquency &lt;3%</span></div></div>
+      <div class="kpi"><svg class="ic"><use href="#i-chart"/></svg><div class="txt"><b>$1.438<span class="u">M</span></b><span>Cartera originada acumulada (COP) — capital desembolsado históricamente</span></div></div>
+      <div class="kpi"><svg class="ic"><use href="#i-layers"/></svg><div class="txt"><b>$1.290<span class="u">M</span></b><span>Cartera activa · AUM (COP) — saldo vivo insoluto tras desembolsos de Q2 2026</span></div></div>
+      <div class="kpi"><svg class="ic"><use href="#i-car"/></svg><div class="txt"><b>$55,3<span class="u">M</span></b><span>Ticket promedio por activo (COP) — foco actual: taxis</span></div></div>
+      <div class="kpi"><svg class="ic"><use href="#i-shield"/></svg><div class="txt"><b>100<span class="u">%</span></b><span>Tasa de recuperación · siniestralidad 0% · mora &lt;3%</span></div></div>
     </div>
 
     <div class="chart-box rv">
-      <h3><svg class="ic"><use href="#i-chart"/></svg> Cumulative revenue</h3>
-      <p class="sub">Historical figures and calendar year-end projection (COP).</p>
+      <h3><svg class="ic"><use href="#i-chart"/></svg> Ingresos acumulados</h3>
+      <p class="sub">Histórico y proyección al cierre del año calendario (COP).</p>
       <div class="chart-scroll">
         <div class="bars" id="bars">
-          <div class="bar" data-h="5"><span class="val">$21,0M</span><div class="fill"></div><span class="lbl">2024<small>6 months</small></span></div>
+          <div class="bar" data-h="5"><span class="val">$21,0M</span><div class="fill"></div><span class="lbl">2024<small>6 meses</small></span></div>
           <div class="bar" data-h="18"><span class="val">$73,1M</span><div class="fill"></div><span class="lbl">2025<small>3.4x YoY</small></span></div>
-          <div class="bar" data-h="68"><span class="val">$270M</span><div class="fill"></div><span class="lbl">2026 · Sc. 1<small>organic</small></span></div>
-          <div class="bar" data-h="90"><span class="val">$360M</span><div class="fill"></div><span class="lbl">2026 · Sc. 2<small>base case</small></span></div>
-          <div class="bar hi" data-h="100"><span class="val">$400M</span><div class="fill"></div><span class="lbl">2026 · Sc. 3<small>max capacity</small></span></div>
+          <div class="bar" data-h="68"><span class="val">$270M</span><div class="fill"></div><span class="lbl">2026 · Esc. 1<small>orgánico</small></span></div>
+          <div class="bar" data-h="90"><span class="val">$360M</span><div class="fill"></div><span class="lbl">2026 · Esc. 2<small>caso base</small></span></div>
+          <div class="bar hi" data-h="100"><span class="val">$400M</span><div class="fill"></div><span class="lbl">2026 · Esc. 3<small>capacidad máx.</small></span></div>
         </div>
       </div>
-      <p class="foot">2024 (6 months of operation): $21,014,000 COP · 2025 (full year): $73,073,272 COP · 2026 projected under the “Operación Lomo Fino” credit discipline.</p>
+      <p class="foot">2024 (6 meses de operación): $21.014.000 COP · 2025 (full year): $73.073.272 COP · 2026 proyectado bajo la disciplina crediticia «Operación Lomo Fino».</p>
     </div>
 
     <div class="rv" style="margin-top:36px">
-      <span class="eyebrow">2026 year-end projections · Real origination capacity</span>
-      <h2 style="font-size:clamp(23px,2.9vw,34px);margin-bottom:16px">“Operación Lomo Fino” (Prime-Cut Operation)</h2>
-      <p style="color:var(--subtle2);max-width:820px;margin-bottom:28px;font-size:clamp(15px,1.25vw,16.5px)">Although we have a massive pipeline, we limit our operating capacity to a maximum of <strong style="color:#fff;font-weight:500">$400 million COP per month</strong>. This ensures we only originate the cream of the market: exclusively taxis in 2 controlled showrooms, with hyper-conservative risk policies. Assuming the operational ramp-up and the real amortization effect on portfolio interest, we project the year-end close under three scenarios:</p>
+      <span class="eyebrow">Proyecciones al cierre de 2026 · Capacidad real de originación</span>
+      <h2 style="font-size:clamp(23px,2.9vw,34px);margin-bottom:16px">«Operación Lomo Fino»</h2>
+      <p style="color:var(--subtle2);max-width:820px;margin-bottom:28px;font-size:clamp(15px,1.25vw,16.5px)">Aunque contamos con un pipeline masivo, limitamos nuestra capacidad operativa a un máximo de <strong style="color:#fff;font-weight:500">$400 millones COP mensuales</strong>. Esto asegura que solo originamos la crema del mercado: exclusivamente taxis en 2 vitrinas controladas, con políticas de riesgo hiperconservadoras. Asumiendo el ramp-up operativo y el efecto real de amortización en los intereses de la cartera, proyectamos el cierre bajo tres escenarios:</p>
       <div class="tabs" role="tablist">
-        <button class="tab on" data-t="1">Scenario 1 · Organic</button>
-        <button class="tab" data-t="2">Scenario 2 · Base case</button>
-        <button class="tab" data-t="3">Scenario 3 · Max capacity</button>
+        <button class="tab on" data-t="1">Escenario 1 · Orgánico</button>
+        <button class="tab" data-t="2">Escenario 2 · Caso base</button>
+        <button class="tab" data-t="3">Escenario 3 · Capacidad máxima</button>
       </div>
       <div class="pane on" id="p1">
-        <div><span class="tag">$0 COP in funding</span><div class="big">$270M<small>Interest income · 2026 close</small></div></div>
-        <div><h3>Status quo — self-sustaining operation</h3><p>Operating exclusively on collections from the current portfolio, interest income will close 2026 at $270,000,000 COP, securing the operating break-even point autonomously.</p></div>
+        <div><span class="tag">$0 COP de fondeo</span><div class="big">$270M<small>Ingresos por intereses · cierre 2026</small></div></div>
+        <div><h3>Status quo — operación autónoma</h3><p>Operando exclusivamente con el recaudo de la cartera actual, los ingresos por intereses cerrarán 2026 en $270.000.000 COP, garantizando el punto de equilibrio operativo de manera autónoma.</p></div>
       </div>
       <div class="pane" id="p2">
-        <div><span class="tag">$1,000 million COP injection</span><div class="big">$360M<small>Revenue · 2026 close</small></div></div>
-        <div><h3>Base case — deployment at $400M/month</h3><p>Deploying this injection at a pace of $400M per month, the funding is 100% placed entering the fourth quarter. Under this curve we project a 2026 revenue close of $360,000,000 COP, keeping our zero loss rate intact.</p></div>
+        <div><span class="tag">Inyección de $1.000 millones COP</span><div class="big">$360M<small>Ingresos · cierre 2026</small></div></div>
+        <div><h3>Caso base — despliegue a $400M/mes</h3><p>Desplegando esta inyección a un ritmo de $400M mensuales, el fondeo queda 100% colocado iniciando el cuarto trimestre. Bajo esta curva proyectamos un cierre de ingresos en 2026 de $360.000.000 COP, manteniendo intacta nuestra siniestralidad cero.</p></div>
       </div>
       <div class="pane" id="p3">
-        <div><span class="tag">Funding &gt; $2,000 million COP</span><div class="big">$400M<small>Revenue · 2026 close</small></div></div>
-        <div><h3>Healthy operating ceiling</h3><p>If a larger tranche is enabled, Starkapital will reach its healthy operating ceiling by originating an additional $2,000 to $2,500 million through December. In this top-capacity scenario, revenue will close 2026 at $400,000,000 COP.</p><p style="margin-top:11px;font-size:13.5px;color:var(--body)">Note: any remainder of a structured facility of $3,000M or $4,000M will carry over as liquidity for secured origination in Q1 2027.</p></div>
+        <div><span class="tag">Fondeo &gt; $2.000 millones COP</span><div class="big">$400M<small>Ingresos · cierre 2026</small></div></div>
+        <div><h3>Tope operativo sano</h3><p>Si se habilita un tramo mayor, Starkapital llegará a su tope operativo sano originando $2.000 a $2.500 millones adicionales hasta diciembre. En este escenario de capacidad tope, los ingresos cerrarán 2026 en $400.000.000 COP.</p><p style="margin-top:11px;font-size:13.5px;color:var(--body)">Nota: cualquier remanente de una facilidad estructurada de $3.000M o $4.000M se trasladará como liquidez para originación asegurada en Q1 2027.</p></div>
       </div>
     </div>
 
     <div class="rv" style="margin-top:52px">
       <div class="card" style="padding:clamp(24px,3vw,38px)">
-        <span class="eyebrow">Commercial pipeline · Proven demand</span>
-        <h3 style="font-size:clamp(19px,2.1vw,22px);margin:14px 0 10px">We reject 53% of applications to guarantee asset quality.</h3>
-        <p style="max-width:760px;margin-bottom:26px">Our conversion funnel shows massive demand in the productive-mobility segment, allowing us to be highly selective at origination.</p>
+        <span class="eyebrow">Pipeline comercial · Demanda comprobada</span>
+        <h3 style="font-size:clamp(19px,2.1vw,22px);margin:14px 0 10px">Rechazamos el 53% de las solicitudes para garantizar la calidad del activo.</h3>
+        <p style="max-width:760px;margin-bottom:26px">Nuestro funnel de conversión evidencia una demanda masiva en el segmento de movilidad productiva, permitiéndonos ser altamente selectivos en la originación.</p>
         <div class="kpis" style="gap:14px">
-          <div class="kpi"><svg class="ic"><use href="#i-funnel"/></svg><div class="txt"><b>$4.800<span class="u">M</span></b><span>Pipeline volume · filed applications (COP)</span></div></div>
-          <div class="kpi"><svg class="ic"><use href="#i-doc"/></svg><div class="txt"><b>76</b><span>Total applications in the pipeline</span></div></div>
-          <div class="kpi"><svg class="ic"><use href="#i-check"/></svg><div class="txt"><b>31</b><span>Historically disbursed</span></div></div>
-          <div class="kpi"><svg class="ic"><use href="#i-target"/></svg><div class="txt"><b>5</b><span>In final review stage</span></div></div>
+          <div class="kpi"><svg class="ic"><use href="#i-funnel"/></svg><div class="txt"><b>$4.800<span class="u">M</span></b><span>Volumen en pipeline · solicitudes radicadas (COP)</span></div></div>
+          <div class="kpi"><svg class="ic"><use href="#i-doc"/></svg><div class="txt"><b>76</b><span>Solicitudes totales en el pipeline</span></div></div>
+          <div class="kpi"><svg class="ic"><use href="#i-check"/></svg><div class="txt"><b>31</b><span>Desembolsadas históricamente</span></div></div>
+          <div class="kpi"><svg class="ic"><use href="#i-target"/></svg><div class="txt"><b>5</b><span>En fase de estudio final</span></div></div>
         </div>
       </div>
     </div>
@@ -793,31 +793,31 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
 </section>
 
 <div class="band">
-  <img src="img/growth.jpg" alt="Growth with near-zero marginal cost" loading="lazy">
-  <div class="wrap"><q>Volume grows <b>without increasing costs</b>: our marginal cost stays close to zero as we scale.</q></div>
+  <img src="img/growth.jpg" alt="Crecimiento con costo marginal cercano a cero" loading="lazy">
+  <div class="wrap"><q>El volumen crece <b>sin aumentar los costos</b>: nuestro costo marginal se mantiene cercano a cero a medida que escalamos.</q></div>
 </div>
 
 <!-- DIFERENCIACIÓN -->
 <section id="diferenciacion">
   <div class="wrap">
     <div class="sec-head rv">
-      <span class="eyebrow">Differentiation</span>
-      <h2>Five levers that sustain <em>superior margins</em>.</h2>
+      <span class="eyebrow">Diferenciación</span>
+      <h2>Cinco palancas que sostienen <em>márgenes superiores</em>.</h2>
     </div>
     <div class="diffs">
-      <div class="diff rv"><div class="top"><svg class="ic"><use href="#i-zap"/></svg><span class="n">01</span></div><h3>Operational efficiency</h3><p>End-to-end automated processes; human intervention happens only where real judgment adds value. We cut operational noise to focus on flawless execution.</p></div>
-      <div class="diff rv"><div class="top"><svg class="ic"><use href="#i-heart"/></svg><span class="n">02</span></div><h3>High-fidelity service</h3><p style="color:var(--olive);font-size:12.5px;letter-spacing:.06em;margin-bottom:9px;font-weight:500">HUMAN-CENTRIC AI</p><p>Our AI handles the technical complexity and data processing in milliseconds, letting our human team focus exclusively on soft skills. A fintech where technology solves the problem, but a human connects with the client.</p></div>
-      <div class="diff rv"><div class="top"><svg class="ic"><use href="#i-cpu"/></svg><span class="n">03</span></div><h3>AI applied to the Core</h3><p>Models integrated directly into the operating flow to reduce cycle times, eliminate manual errors and free up team capacity. Technology is not a patch — it is the engine that removes repetitive tasks.</p></div>
-      <div class="diff rv"><div class="top"><svg class="ic"><use href="#i-cost"/></svg><span class="n">04</span></div><h3>Minimal cost structure</h3><p>We operate with a team of 7 people, reaching productivity levels that would traditionally require a much larger and more expensive organizational structure.</p></div>
-      <div class="diff rv"><div class="top"><svg class="ic"><use href="#i-expand"/></svg><span class="n">05</span></div><h3>Margin expansion</h3><p>As transaction and client volume grows, our marginal cost stays close to zero. The automated base allows exponential growth without linear payroll increases.</p></div>
-      <div class="diff feat rv"><h3>Technological efficiency turned into human closeness and superior margins.</h3></div>
+      <div class="diff rv"><div class="top"><svg class="ic"><use href="#i-zap"/></svg><span class="n">01</span></div><h3>Eficiencia operativa</h3><p>Procesos automatizados de punta a punta; la intervención humana ocurre solo donde aporta criterio real. Reducimos el ruido operativo para enfocarnos en la ejecución impecable.</p></div>
+      <div class="diff rv"><div class="top"><svg class="ic"><use href="#i-heart"/></svg><span class="n">02</span></div><h3>Servicio de alta fidelidad</h3><p style="color:var(--olive);font-size:12.5px;letter-spacing:.06em;margin-bottom:9px;font-weight:500">HUMAN-CENTRIC AI</p><p>Nuestra IA se encarga de la complejidad técnica y el procesamiento de datos en milisegundos, permitiendo que nuestro equipo humano se dedique exclusivamente a las habilidades blandas. Una fintech donde la tecnología resuelve el problema, pero un humano conecta con el cliente.</p></div>
+      <div class="diff rv"><div class="top"><svg class="ic"><use href="#i-cpu"/></svg><span class="n">03</span></div><h3>IA aplicada al Core</h3><p>Modelos integrados directamente en el flujo operativo para reducir tiempos de ciclo, eliminar errores manuales y liberar la capacidad del equipo. La tecnología no es un parche, es el motor que elimina las tareas repetitivas.</p></div>
+      <div class="diff rv"><div class="top"><svg class="ic"><use href="#i-cost"/></svg><span class="n">04</span></div><h3>Estructura de costos mínima</h3><p>Operamos con un equipo de 7 personas, alcanzando niveles de productividad que tradicionalmente requerirían una estructura organizacional mucho más robusta y costosa.</p></div>
+      <div class="diff rv"><div class="top"><svg class="ic"><use href="#i-expand"/></svg><span class="n">05</span></div><h3>Expansión de margen</h3><p>A medida que aumenta el volumen de transacciones y clientes, nuestro costo marginal se mantiene cercano a cero. La base automatizada permite crecer exponencialmente sin incrementar linealmente la nómina.</p></div>
+      <div class="diff feat rv"><h3>Eficiencia tecnológica convertida en cercanía humana y márgenes superiores.</h3></div>
     </div>
   </div>
 </section>
 
 <div class="band">
-  <img src="img/human.jpg" alt="High-fidelity human service" loading="lazy">
-  <div class="wrap"><q>Technology solves the problem, but <b>a human connects</b> with the client. Our people have the time and empathy the competition sacrifices.</q></div>
+  <img src="img/human.jpg" alt="Atención humana de alta fidelidad" loading="lazy">
+  <div class="wrap"><q>La tecnología resuelve el problema, pero <b>un humano conecta</b> con el cliente. Nuestra gente tiene el tiempo y la empatía que la competencia sacrifica.</q></div>
 </div>
 
 <!-- HIGHLIGHTS -->
@@ -825,41 +825,41 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
   <div class="wrap">
     <div class="sec-head rv">
       <span class="eyebrow">Highlights 2026</span>
-      <h2>Financial performance and <em>technological efficiency</em>.</h2>
+      <h2>Desempeño financiero y <em>eficiencia tecnológica</em>.</h2>
     </div>
     <div class="hl">
       <div class="card rv">
-        <h3><svg class="ic"><use href="#i-target"/></svg> Target Term Sheet · Institutional round</h3>
-        <p style="margin-top:12px">We aim to structure a debt facility (<em>Warehouse Facility</em>) of up to <b style="color:var(--lime);font-weight:600">$4,000 million COP</b>. To maintain risk discipline, funding will be absorbed in staggered tranches (operating cap of ~$400 million per month) with an expected target rate between <b style="color:#fff;font-weight:500">14% and 18% E.A.</b></p>
+        <h3><svg class="ic"><use href="#i-target"/></svg> Term Sheet objetivo · Ronda institucional</h3>
+        <p style="margin-top:12px">Buscamos estructurar una facilidad de deuda (<em>Warehouse Facility</em>) de hasta <b style="color:var(--lime);font-weight:600">$4.000 millones COP</b>. Para mantener la disciplina de riesgo, el fondeo se absorberá en tramos escalonados (tope operativo de ~$400 millones mensuales) con una tasa objetivo esperada entre el <b style="color:#fff;font-weight:500">14% y el 18% E.A.</b></p>
       </div>
       <div class="card rv">
-        <h3><svg class="ic"><use href="#i-chart"/></svg> Operating revenue growth</h3>
+        <h3><svg class="ic"><use href="#i-chart"/></svg> Crecimiento de ingresos operacionales</h3>
         <ul>
-          <li><svg class="ic"><use href="#i-check"/></svg><span><b>2024 (6 months):</b> $21,014,000 COP</span></li>
-          <li><svg class="ic"><use href="#i-check"/></svg><span><b>2025:</b> $73,073,272 COP (3.4x YoY)</span></li>
-          <li><svg class="ic"><use href="#i-check"/></svg><span><b>2026 projected:</b> $360,000,000 to $400,000,000 COP</span></li>
+          <li><svg class="ic"><use href="#i-check"/></svg><span><b>2024 (6 meses):</b> $21.014.000 COP</span></li>
+          <li><svg class="ic"><use href="#i-check"/></svg><span><b>2025:</b> $73.073.272 COP (3.4x YoY)</span></li>
+          <li><svg class="ic"><use href="#i-check"/></svg><span><b>2026 proyectado:</b> $360.000.000 a $400.000.000 COP</span></li>
         </ul>
-        <p style="margin-top:14px;font-size:13.5px;color:var(--body)">Starkapital began formal operations in May 2024. A realistic projection based on the maturation of the current portfolio and the gradual injection of institutional resources. We intentionally cap growth at our healthy operating ceiling of $400M/month to guarantee a zero loss rate.</p>
+        <p style="margin-top:14px;font-size:13.5px;color:var(--body)">Starkapital inició operaciones formales en mayo de 2024. Proyección realista basada en la maduración de la cartera actual y la inyección gradual de recursos institucionales. Limitamos intencionalmente el crecimiento a nuestro tope operativo sano de máximo $400M/mes para garantizar siniestralidad cero.</p>
       </div>
       <div class="card rv">
-        <h3><svg class="ic"><use href="#i-cost"/></svg> Operational efficiency · Lean model</h3>
-        <p style="margin-top:12px">Unlike traditional banking, we operate without physical branches or collection armies, achieving per-employee efficiency far above the industry.</p>
+        <h3><svg class="ic"><use href="#i-cost"/></svg> Eficiencia operativa · Modelo lean</h3>
+        <p style="margin-top:12px">A diferencia de la banca tradicional, operamos sin sucursales físicas ni ejércitos de cobranza, logrando una eficiencia por empleado muy superior a la industria.</p>
         <ul>
-          <li><svg class="ic"><use href="#i-check"/></svg><span><b>$110,000,000 COP / person</b> — annualized run-rate revenue per FTE, over an active headcount of 7 with payroll cost normalized to market prices.</span></li>
-          <li><svg class="ic"><use href="#i-check"/></svg><span><b>Origination operating cost</b> reduced to its minimum thanks to funnel digitalization and dematerialized, registered collateral (Confecámaras / Transit authority).</span></li>
+          <li><svg class="ic"><use href="#i-check"/></svg><span><b>$110.000.000 COP / persona</b> — ingresos anualizados (run-rate) por FTE, sobre plantilla activa de 7 personas con costo de nómina normalizado a precios de mercado.</span></li>
+          <li><svg class="ic"><use href="#i-check"/></svg><span><b>Costo operativo de originación</b> reducido a su mínima expresión gracias a la digitalización del funnel y garantías desmaterializadas e inscritas (Confecámaras / Tránsito).</span></li>
         </ul>
       </div>
       <div class="card rv">
-        <h3><svg class="ic"><use href="#i-gps"/></svg> Technology at the core · Risk &amp; telemetry</h3>
-        <p style="margin-top:12px">We apply technology directly to real-time risk mitigation on the underlying asset.</p>
+        <h3><svg class="ic"><use href="#i-gps"/></svg> Tecnología en el core · Riesgo y telemetría</h3>
+        <p style="margin-top:12px">Aplicamos la tecnología directamente a la mitigación del riesgo en tiempo real sobre el activo subyacente.</p>
         <ul>
-          <li><svg class="ic"><use href="#i-gps"/></svg><span><b>Collateral monitoring:</b> 100% of the financed fleet has telemetry (GPS) tracking, giving the exact location of our collateral in real time.</span></li>
-          <li><svg class="ic"><use href="#i-lock"/></svg><span><b>Technology roadmap:</b> part of this round’s resources will accelerate the integration of automated remote locks (<em>Kill Switch</em>), taking collection efficiency to the next level.</span></li>
+          <li><svg class="ic"><use href="#i-gps"/></svg><span><b>Monitoreo del colateral:</b> el 100% de la flota financiada cuenta con seguimiento de telemetría (GPS), permitiendo la ubicación exacta de nuestra garantía en tiempo real.</span></li>
+          <li><svg class="ic"><use href="#i-lock"/></svg><span><b>Roadmap tecnológico:</b> parte de los recursos de esta ronda acelerarán la integración de bloqueos remotos automatizados (<em>Kill Switch</em>), llevando la eficiencia de recaudo al siguiente nivel.</span></li>
         </ul>
       </div>
       <div class="card rv" style="grid-column:1/-1;background:linear-gradient(120deg,rgba(229,242,36,.08),transparent);border-color:rgba(229,242,36,.22)">
-        <h3><svg class="ic"><use href="#i-shield"/></svg> Disciplined capital structure</h3>
-        <p style="margin-top:12px;max-width:900px">Starkapital operates with a structured cash flow where the financial spread itself (projected differential of ~10% to 12%) sustains the operating burn rate, which remains strictly controlled. Funds raised go exclusively to capital injection for productive origination and the deployment of our technology infrastructure.</p>
+        <h3><svg class="ic"><use href="#i-shield"/></svg> Estructura de capital disciplinada</h3>
+        <p style="margin-top:12px;max-width:900px">Starkapital opera con un flujo de caja estructurado donde el propio spread financiero (diferencial proyectado del ~10% al 12%) sostiene el burn rate operativo, el cual se mantiene estrictamente controlado. Los fondos levantados se destinan exclusivamente a inyección de capital para la originación productiva y el despliegue de nuestra infraestructura tecnológica.</p>
       </div>
     </div>
   </div>
@@ -868,32 +868,32 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
 <!-- RETOS -->
 <section id="retos" style="padding-top:0">
   <div class="wrap">
-    <div class="sec-head rv"><span class="eyebrow">Current challenges</span><h2>Where our <em>bottleneck</em> is today.</h2></div>
+    <div class="sec-head rv"><span class="eyebrow">Retos actuales</span><h2>Dónde está hoy nuestro <em>cuello de botella</em>.</h2></div>
     <div class="chal">
       <div class="card rv">
-        <h3><svg class="ic" style="font-size:20px;color:var(--lime);vertical-align:-3px;margin-right:8px"><use href="#i-alert"/></svg>Capital deployment gap</h3>
-        <p>We have proven commercial demand and installed operating capacity to support massive volume without growing headcount. Our only bottleneck is the capital available to lend. More liquidity translates directly into more loans disbursed, immediate client service and the expansion of our profit margin.</p>
+        <h3><svg class="ic" style="font-size:20px;color:var(--lime);vertical-align:-3px;margin-right:8px"><use href="#i-alert"/></svg>Brecha de despliegue de capital</h3>
+        <p>Tenemos la demanda comercial comprobada y la capacidad operativa instalada para soportar un volumen masivo sin aumentar la planta. Nuestro único cuello de botella es el capital disponible para prestar. Más liquidez se traduce directamente en más créditos desembolsados, atención inmediata a clientes y la expansión de nuestro margen de rentabilidad.</p>
       </div>
       <div class="card rv">
-        <h3><svg class="ic" style="font-size:20px;color:var(--lime);vertical-align:-3px;margin-right:8px"><use href="#i-cpu"/></svg>Maturing the automation layer</h3>
-        <p>We are in an intentional phase of technological deepening: expanding the coverage of AI-automated processes, strengthening internal controls and monitoring mechanisms, and consolidating the operational documentation that lets volume scale without scaling headcount. It is a short-term execution focus that sustains the efficiency thesis.</p>
+        <h3><svg class="ic" style="font-size:20px;color:var(--lime);vertical-align:-3px;margin-right:8px"><use href="#i-cpu"/></svg>Maduración de la capa de automatización</h3>
+        <p>Estamos en una fase intencional de profundización tecnológica: ampliar la cobertura de procesos automatizados con IA, fortalecer los controles internos y los mecanismos de monitoreo, y consolidar la documentación operativa que permite escalar el volumen sin escalar la planta. Es un foco de ejecución de corto plazo que sostiene la tesis de eficiencia.</p>
       </div>
     </div>
   </div>
 </section>
 
 <div class="band">
-  <img src="img/docs.jpg" alt="Data Room documentation" loading="lazy">
-  <div class="wrap"><q>Twenty-six documents supporting the company’s thesis, operations and <b>corporate governance</b>.</q></div>
+  <img src="img/docs.jpg" alt="Documentación del Data Room" loading="lazy">
+  <div class="wrap"><q>Veintiséis documentos que soportan la tesis, la operación y el <b>gobierno corporativo</b> de la compañía.</q></div>
 </div>
 
 <!-- DOCUMENTOS -->
 <section id="documentos">
   <div class="wrap">
     <div class="sec-head rv">
-      <span class="eyebrow">Documentation</span>
-      <h2>The complete file, <em>organized by subject</em>.</h2>
-      <p>Six document blocks. Each document opens in a new tab on Google Drive.</p>
+      <span class="eyebrow">Documentación</span>
+      <h2>El expediente completo, <em>organizado por materia</em>.</h2>
+      <p>Seis bloques documentales. Cada documento abre en una pestaña nueva sobre Google Drive.</p>
     </div>
     <div class="doc-groups" id="docs"></div>
   </div>
@@ -904,14 +904,14 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
   <div class="contact-bg"></div>
   <div class="wrap">
     <div class="sec-head rv">
-      <span class="eyebrow">Contact &amp; next steps</span>
-      <h2>Thank you for your interest in exploring an <em>investment opportunity</em>.</h2>
-      <p>This Data Room provides a preliminary view of Starkapital’s structure, regulatory framework, traction and strategic roadmap. It is intended solely for initial evaluation and does not include all materials shared in an advanced due diligence.</p>
+      <span class="eyebrow">Contacto y próximos pasos</span>
+      <h2>Gracias por su interés en explorar una <em>oportunidad de inversión</em>.</h2>
+      <p>Este Data Room ofrece una visión preliminar de la estructura, el marco regulatorio, la tracción y la hoja de ruta estratégica de Starkapital. Está destinado únicamente a fines de evaluación inicial y no incluye todos los materiales que se comparten en un due diligence avanzado.</p>
     </div>
-    <p class="rv" style="color:var(--subtle2)">If your team remains interested after this initial review, we would be glad to move forward with the following steps:</p>
+    <p class="rv" style="color:var(--subtle2)">Si su equipo mantiene el interés tras esta revisión inicial, con gusto podríamos avanzar con los siguientes pasos:</p>
     <div class="steps">
-      <div class="step rv"><span class="n"><svg class="ic"><use href="#i-lock"/></svg> STEP 01</span><h3>Confidentiality extension &amp; access</h3><p>By mutual agreement, we can grant access to additional materials —including detailed financial, legal and technical documentation— under a customized NDA.</p></div>
-      <div class="step rv"><span class="n"><svg class="ic"><use href="#i-scale"/></svg> STEP 02</span><h3>Due diligence &amp; term alignment</h3><p>Structured conversations to explore alignment on valuation, structure and terms toward the definitive agreements of Starkapital’s current round.</p></div>
+      <div class="step rv"><span class="n"><svg class="ic"><use href="#i-lock"/></svg> PASO 01</span><h3>Extensión de confidencialidad y acceso</h3><p>Mediante acuerdo mutuo, podemos otorgar acceso a materiales adicionales —incluyendo documentación financiera, legal y técnica detallada— bajo un NDA personalizado.</p></div>
+      <div class="step rv"><span class="n"><svg class="ic"><use href="#i-scale"/></svg> PASO 02</span><h3>Due diligence y alineación de términos</h3><p>Conversaciones estructuradas para explorar alineación en valuación, estructura y términos hacia los acuerdos definitivos de la ronda actual de Starkapital.</p></div>
     </div>
 
     <div class="vcard rv">
@@ -921,14 +921,14 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
         <div class="role">Chief Executive Officer &amp; Co-Founder</div>
         <div class="links">
           <a href="mailto:gerencia@starkapital.com"><svg class="ic"><use href="#i-mail"/></svg> gerencia@starkapital.com</a>
-          <a href="https://calendar.app.google/11A3xS8SejFy7FoL6" target="_blank" rel="noopener"><svg class="ic"><use href="#i-cal"/></svg> Juan Felipe’s calendar</a>
+          <a href="https://calendar.app.google/11A3xS8SejFy7FoL6" target="_blank" rel="noopener"><svg class="ic"><use href="#i-cal"/></svg> Agenda Juan Felipe</a>
           <a href="https://www.linkedin.com/in/juan-felipe-arbel%C3%A1ez-mej%C3%ADa-945118225/" target="_blank" rel="noopener"><svg class="ic"><use href="#i-li"/></svg> LinkedIn</a>
           <a href="https://starkapital.com/" target="_blank" rel="noopener"><svg class="ic"><use href="#i-globe"/></svg> starkapital.com</a>
         </div>
       </div>
       <div class="acts">
-        <a href="#" class="btn btn-p js-wa"><svg class="ic"><use href="#i-wa"/></svg> Schedule a meeting</a>
-        <a class="btn btn-s" href="mailto:gerencia@starkapital.com?subject=Extended%20access%20request%20%E2%80%94%20Data%20Room%202026"><svg class="ic"><use href="#i-mail"/></svg> Extended access</a>
+        <a href="#" class="btn btn-p js-wa"><svg class="ic"><use href="#i-wa"/></svg> Agendar reunión</a>
+        <a class="btn btn-s" href="mailto:gerencia@starkapital.com?subject=Solicitud%20de%20acceso%20ampliado%20%E2%80%94%20Data%20Room%202026"><svg class="ic"><use href="#i-mail"/></svg> Acceso ampliado</a>
       </div>
     </div>
   </div>
@@ -938,14 +938,14 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
   <div class="wrap">
     <div class="frow">
       <span class="mark">stark<i>apital</i></span>
-      <span>Bogotá, Colombia · Data Room 2026 (EN)</span>
+      <span>Bogotá, Colombia · Data Room 2026 (ES)</span>
     </div>
-    <p class="disclaimer">Confidential document. The information contained herein is provided solely for preliminary evaluation purposes and does not constitute a securities offering or investment advice. Projections are estimates subject to market and execution variables.</p>
+    <p class="disclaimer">Documento confidencial. La información aquí contenida se entrega únicamente con fines de evaluación preliminar y no constituye una oferta de valores ni una recomendación de inversión. Las proyecciones son estimaciones sujetas a variables de mercado y ejecución.</p>
   </div>
 </footer>
 
 <div class="mcta" id="mcta">
-  <a href="#" class="btn btn-p js-wa"><svg class="ic"><use href="#i-wa"/></svg> Schedule a meeting on WhatsApp</a>
+  <a href="#" class="btn btn-p js-wa"><svg class="ic"><use href="#i-wa"/></svg> Agendar reunión por WhatsApp</a>
 </div>
 </div><!-- /#page -->
 
@@ -954,7 +954,7 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
 (function(){
   const NAVY='#0f1e32',LIME='#e5f224',OLIVE='#b2bf00',LINE='#1e3450',W='#fff';
   const VEHICLES=[
-    {key:'taxi',sea:false,msg:'A productive <b>taxi</b> enters operation…',svg:
+    {key:'taxi',sea:false,msg:'Un <b>taxi</b> productivo entra en operación…',svg:
 `<svg viewBox="0 0 130 62" fill="none">
   <rect x="34" y="8" width="42" height="20" rx="7" fill="${NAVY}" stroke="${LIME}" stroke-width="2.5"/>
   <rect x="47" y="2" width="16" height="8" rx="2" fill="${LIME}"/>
@@ -966,7 +966,7 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
   <circle cx="36" cy="50" r="9" fill="${NAVY}"/><circle cx="36" cy="50" r="4" fill="${LIME}"/>
   <circle cx="92" cy="50" r="9" fill="${NAVY}"/><circle cx="92" cy="50" r="4" fill="${LIME}"/>
 </svg>`},
-    {key:'truck',sea:false,msg:'A cargo <b>truck</b> hits the road…',svg:
+    {key:'truck',sea:false,msg:'Un <b>camión</b> de carga sale a ruta…',svg:
 `<svg viewBox="0 0 150 62" fill="none">
   <rect x="4" y="6" width="86" height="38" rx="4" fill="${NAVY}" stroke="${LIME}" stroke-width="2.5"/>
   <path d="M14 25h28M14 32h20" stroke="${LIME}" stroke-width="2.5" stroke-linecap="round"/>
@@ -977,7 +977,7 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
   <circle cx="62" cy="50" r="9" fill="${NAVY}"/><circle cx="62" cy="50" r="4" fill="${LIME}"/>
   <circle cx="118" cy="50" r="9" fill="${NAVY}"/><circle cx="118" cy="50" r="4" fill="${LIME}"/>
 </svg>`},
-    {key:'moto',sea:false,msg:'A working <b>motorcycle</b> starts its day…',svg:
+    {key:'moto',sea:false,msg:'Una <b>moto</b> de trabajo arranca su jornada…',svg:
 `<svg viewBox="0 0 120 62" fill="none">
   <circle cx="24" cy="46" r="13" fill="none" stroke="${NAVY}" stroke-width="6"/>
   <circle cx="24" cy="46" r="4.5" fill="${LIME}"/>
@@ -988,7 +988,7 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
   <rect x="52" y="16" width="22" height="9" rx="4.5" fill="${NAVY}"/>
   <path d="M74 20l14 4" stroke="${NAVY}" stroke-width="5" stroke-linecap="round"/>
 </svg>`},
-    {key:'boat',sea:true,msg:'A productive <b>vessel</b> sets sail…',svg:
+    {key:'boat',sea:true,msg:'Una <b>embarcación</b> productiva zarpa…',svg:
 `<svg viewBox="0 0 140 62" fill="none">
   <path d="M8 34h124l-14 20H22L8 34z" fill="${LIME}"/>
   <path d="M8 34h124l-3.5 5H11.5L8 34z" fill="${NAVY}" opacity=".18"/>
@@ -1033,7 +1033,7 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
     loader.classList.add('show');
     const first=esc(u.name.trim().split(/\s+/)[0]);
     const t1=short?1900:2650,t2=short?2500:3450;
-    setTimeout(()=>{title.innerHTML='Welcome, <b>'+first+'</b>.'},t1);
+    setTimeout(()=>{title.innerHTML='Bienvenido, <b>'+first+'</b>.'},t1);
     setTimeout(()=>{
       loader.classList.add('hide');
       document.body.classList.remove('gated');
@@ -1060,7 +1060,7 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
     const pr=document.createElement('div');pr.className='lo-person';pr.innerHTML=PERSON;
     stage.append(t,pr);
     const first=esc((u&&u.name||'').trim().split(/\s+/)[0]||'');
-    title.innerHTML='See you soon'+(first?', <b>'+first+'</b>':'')+'. Safe travels!';
+    title.innerHTML='Hasta pronto'+(first?', <b>'+first+'</b>':'')+'. ¡Buen viaje!';
     loader.classList.add('show');
     setTimeout(()=>{
       try{sessionStorage.removeItem(KEY)}catch(_){}
@@ -1071,10 +1071,10 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
   /* carrusel del gate */
   (function(){
     const SLIDES=[
-      'We finance the <b>taxis</b> that move the city every day.',
-      'We finance the <b>motorcycles</b> that deliver and connect commerce.',
-      'We finance the <b>trucks</b> that carry the country’s economy.',
-      'We finance the <b>yellow machinery</b> that builds the future.'
+      'Financiamos los <b>taxis</b> que mueven la ciudad todos los días.',
+      'Financiamos las <b>motos</b> que entregan y conectan el comercio.',
+      'Financiamos los <b>camiones</b> que cargan la economía del país.',
+      'Financiamos la <b>maquinaria amarilla</b> que construye el futuro.'
     ];
     const imgs=[...document.querySelectorAll('.gcar img')],txt=document.getElementById('gqText'),
           dotsBox=document.getElementById('gqDots');
@@ -1110,9 +1110,9 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
     e.preventDefault();
     const v=email.value.trim().toLowerCase(),pw=pass.value;
     if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)){
-      errMsg.textContent='Enter a valid email address to continue.';err.classList.add('show');email.focus();return;
+      errMsg.textContent='Ingrese un correo válido para continuar.';err.classList.add('show');email.focus();return;
     }
-    if(!pw){errMsg.textContent='Enter your password.';err.classList.add('show');pass.focus();return}
+    if(!pw){errMsg.textContent='Ingrese su clave.';err.classList.add('show');pass.focus();return}
     let u=null;
     if(v===ADMIN.email.toLowerCase()&&pw===getAdminPass()) u={name:ADMIN.name,email:ADMIN.email,role:'admin'};
     else{
@@ -1120,7 +1120,7 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
       if(hit) u={name:hit.name,email:hit.email,role:'inversionista'};
     }
     if(!u){
-      errMsg.textContent='Incorrect username or password. Request access from the administrator.';
+      errMsg.textContent='Usuario o clave incorrectos. Solicite acceso al administrador.';
       err.classList.add('show');pass.focus();return;
     }
     err.classList.remove('show');
@@ -1144,16 +1144,16 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
         aKey=document.getElementById('adminKey');
   function showKey(n,em,pw){
     aKey.hidden=false;
-    aKey.innerHTML='<span><b style="color:#fff;font-weight:600">Password for '+esc(n)+'</b> · '+esc(em)+' → <code>'+esc(pw)+'</code></span><button type="button" id="akCopy">Copy</button>';
+    aKey.innerHTML='<span><b style="color:#fff;font-weight:600">Clave de '+esc(n)+'</b> · '+esc(em)+' → <code>'+esc(pw)+'</code></span><button type="button" id="akCopy">Copiar</button>';
     document.getElementById('akCopy').onclick=function(){
       if(navigator.clipboard)navigator.clipboard.writeText(em+' / '+pw);
-      this.textContent='Copied';
+      this.textContent='Copiada';
     };
   }
   function renderInv(){
     const rows=getInv().map((x,i)=>{
       const ini=esc(x.name.trim().split(/\s+/).map(p=>p[0]).slice(0,2).join('').toUpperCase());
-      return '<div class="arow"><span class="uavatar">'+ini+'</span><span class="ainfo"><b>'+esc(x.name)+'</b><small>'+esc(x.email)+'</small></span><button class="ares" data-i="'+i+'" title="Reset password">↻</button><button class="adel" data-i="'+i+'" title="Delete user">✕</button></div>';
+      return '<div class="arow"><span class="uavatar">'+ini+'</span><span class="ainfo"><b>'+esc(x.name)+'</b><small>'+esc(x.email)+'</small></span><button class="ares" data-i="'+i+'" title="Reiniciar clave">↻</button><button class="adel" data-i="'+i+'" title="Eliminar usuario">✕</button></div>';
     }).join('');
     aList.innerHTML='<div class="arow isadmin"><span class="uavatar">JF</span><span class="ainfo"><b>'+esc(ADMIN.name)+'</b><small>'+esc(ADMIN.email)+'</small></span><span class="atag">ADMIN</span></div>'+rows;
     aList.querySelectorAll('.adel').forEach(b=>b.onclick=()=>{
@@ -1169,9 +1169,9 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
   aForm.addEventListener('submit',e=>{
     e.preventDefault();
     const n=aName.value.trim(),v=aEmail.value.trim().toLowerCase();
-    if(n.length<3){aErr.textContent='Enter the investor’s full name.';aErr.classList.add('show');return}
-    if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)){aErr.textContent='Enter a valid email address.';aErr.classList.add('show');return}
-    if(v===ADMIN.email.toLowerCase()||getInv().some(x=>x.email.toLowerCase()===v)){aErr.textContent='That email is already registered.';aErr.classList.add('show');return}
+    if(n.length<3){aErr.textContent='Ingrese el nombre completo del inversionista.';aErr.classList.add('show');return}
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)){aErr.textContent='Ingrese un correo válido.';aErr.classList.add('show');return}
+    if(v===ADMIN.email.toLowerCase()||getInv().some(x=>x.email.toLowerCase()===v)){aErr.textContent='Ese correo ya está registrado.';aErr.classList.add('show');return}
     aErr.classList.remove('show');
     const pw=genPass(),list=getInv();list.push({name:n,email:v,pass:pw});setInv(list);
     aName.value='';aEmail.value='';renderInv();showKey(n,v,pw);
@@ -1179,7 +1179,7 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
 })();
 
 /* ---- WhatsApp ---- */
-const WA='https://wa.me/573225974954?text='+encodeURIComponent('Hello, I come from the Starkapital Data Room 2026 and I would like to schedule a meeting.');
+const WA='https://wa.me/573225974954?text='+encodeURIComponent('Hola, vengo del Data Room 2026 de Starkapital y quisiera agendar una reunión.');
 document.querySelectorAll('.js-wa').forEach(a=>{a.href=WA;a.target='_blank';a.rel='noopener'});
 
 /* ---- documentos ---- */
@@ -1217,7 +1217,7 @@ const GROUPS=[
   ["Plan de Marketing Digital","https://docs.google.com/document/d/1cE31x3-jMq3WV61UckQAmhHYbsWk7R15/edit?usp=sharing&ouid=109686496718890253832&rtpof=true&sd=true","doc"],
   ["Plan de Diversificación","https://docs.google.com/document/d/1y7IV9WanaCOL4v73k7hqCFCNPr9pCoXf/edit?usp=sharing&ouid=109686496718890253832&rtpof=true&sd=true","doc"]]}
 ];
-const KIND={slides:['i-slides','Presentation'],doc:['i-doc','Document'],sheet:['i-sheet','Spreadsheet'],pdf:['i-pdf','PDF'],video:['i-video','Video']};
+const KIND={slides:['i-slides','Presentación'],doc:['i-doc','Documento'],sheet:['i-sheet','Hoja de cálculo'],pdf:['i-pdf','PDF'],video:['i-video','Video']};
 document.getElementById('docs').innerHTML=GROUPS.map((g,i)=>`
   <details class="dg rv"${i===0?' open':''}>
     <summary><h3><svg class="ic"><use href="#${g.i}"/></svg><span>${g.t}</span><span class="ct">${g.d.length}</span></h3><svg class="ic arrow"><use href="#i-down"/></svg></summary>
