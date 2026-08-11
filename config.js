@@ -67,13 +67,13 @@
       inversionistas desde cualquier computador o celular.
    ============================================================ */
 
-// window.SK_FIREBASE = {
-//   apiKey: "AIza...",
-//   authDomain: "starkapital-dataroom.firebaseapp.com",
-//   projectId: "starkapital-dataroom",
-//   storageBucket: "starkapital-dataroom.appspot.com",
-//   messagingSenderId: "000000000000",
-//   appId: "1:000000000000:web:abc123"
-// };
+window.SK_FIREBASE = {
+  apiKey: "AIzaSyCuScX4zA9uF8OUDuzYl66zS4o3wUPcHkM",
+  authDomain: "starkapital-dataroom.firebaseapp.com",
+  projectId: "starkapital-dataroom",
+  storageBucket: "starkapital-dataroom.firebasestorage.app",
+  messagingSenderId: "979818814052",
+  appId: "1:979818814052:web:f5bc08014cf96c101add71"
+};
 
 window.SK_ADMIN_EMAIL = "gerencia@starkapital.com";
