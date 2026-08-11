@@ -150,14 +150,26 @@
     adminSignedIn: function () { return !!(fb && fb.auth.currentUser); },
 
     /* El inversionista solo puede encontrar SU documento si acierta
-       correo y clave: el id del documento es la huella de ambos. */
+       correo y clave: el id del documento es la huella de ambos.
+       Si no está en la nube, se acepta la lista publicada en
+       users.js — así ningún acceso vigente se cae durante la
+       migración. */
     login: async function (email, pass) {
-      await loadFirebase();
-      var id = await fingerprint(email, pass);
-      var snap = await fb.D.getDoc(fb.D.doc(fb.db, 'access', id));
-      if (!snap.exists()) return null;
-      var d = snap.data();
-      return { name: d.name, email: d.email, role: 'inversionista' };
+      try {
+        await loadFirebase();
+        var id = await fingerprint(email, pass);
+        var snap = await fb.D.getDoc(fb.D.doc(fb.db, 'access', id));
+        if (snap.exists()) {
+          var d = snap.data();
+          return { name: d.name, email: d.email, role: 'inversionista' };
+        }
+      } catch (_) { /* sin conexión: se intenta con la lista publicada */ }
+      var v = String(email).trim().toLowerCase();
+      var PUB = Array.isArray(global.SK_USERS) ? global.SK_USERS : [];
+      var hit = PUB.filter(function (x) {
+        return String(x.email).toLowerCase() === v && x.pass === pass;
+      })[0];
+      return hit ? { name: hit.name, email: hit.email, role: 'inversionista' } : null;
     },
 
     adminLogin: async function (email, pass) {
