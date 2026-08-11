@@ -104,8 +104,8 @@
         return { id: String(i), name: x.name, email: x.email, pass: x.pass };
       }));
     },
-    create: function (name, email) {
-      var pass = genPass(), l = localApi._get();
+    create: function (name, email, chosen) {
+      var pass = (chosen && String(chosen).trim()) || genPass(), l = localApi._get();
       l.push({ name: name, email: String(email).toLowerCase(), pass: pass });
       localApi._set(l);
       return Promise.resolve({ pass: pass });
@@ -127,27 +127,49 @@
     }
   };
 
-  /* ---------- modo NUBE (Firebase) ---------- */
+  /* ---------- modo NUBE (Firebase) ----------
+     El acceso del inversionista SOLO necesita Firestore. No se
+     inicializa Authentication en esa ruta, porque Auth depende de
+     IndexedDB y en ventanas de incógnito (o con almacenamiento
+     restringido) puede fallar y tumbar todo el login. */
+  var authP = null;
+
   function loadFirebase() {
     if (readyP) return readyP;
     readyP = (async function () {
-      var appMod  = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js');
-      var authMod = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js');
-      var dbMod   = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
-      var app = appMod.initializeApp(CFG);
-      fb = { auth: authMod.getAuth(app), db: dbMod.getFirestore(app), A: authMod, D: dbMod };
-      await new Promise(function (res) {
-        var off = authMod.onAuthStateChanged(fb.auth, function () { off(); res(); });
-      });
+      var appMod = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js');
+      var dbMod  = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
+      var app = appMod.getApps().length ? appMod.getApps()[0] : appMod.initializeApp(CFG);
+      fb = { app: app, db: dbMod.getFirestore(app), D: dbMod };
     })();
     return readyP;
+  }
+
+  /* Authentication solo se carga cuando entra el administrador, y con
+     una cadena de persistencia que degrada a memoria si el navegador
+     no permite almacenamiento. */
+  function loadAuth() {
+    if (authP) return authP;
+    authP = (async function () {
+      await loadFirebase();
+      var A = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js');
+      var auth;
+      try {
+        auth = A.initializeAuth(fb.app, {
+          persistence: [A.indexedDBLocalPersistence, A.browserLocalPersistence,
+                        A.browserSessionPersistence, A.inMemoryPersistence]
+        });
+      } catch (_) { auth = A.getAuth(fb.app); }
+      fb.auth = auth; fb.A = A;
+    })();
+    return authP;
   }
 
   var cloudApi = {
     mode: 'cloud',
     ready: loadFirebase,
     sync: function () { return Promise.resolve(); },
-    adminSignedIn: function () { return !!(fb && fb.auth.currentUser); },
+    adminSignedIn: function () { return !!(fb && fb.auth && fb.auth.currentUser); },
 
     /* El inversionista solo puede encontrar SU documento si acierta
        correo y clave: el id del documento es la huella de ambos.
@@ -163,7 +185,7 @@
           var d = snap.data();
           return { name: d.name, email: d.email, role: 'inversionista' };
         }
-      } catch (_) { /* sin conexión: se intenta con la lista publicada */ }
+      } catch (e) { cloudApi.lastError = e; }
       var v = String(email).trim().toLowerCase();
       var PUB = Array.isArray(global.SK_USERS) ? global.SK_USERS : [];
       var hit = PUB.filter(function (x) {
@@ -173,17 +195,17 @@
     },
 
     adminLogin: async function (email, pass) {
-      await loadFirebase();
+      await loadAuth();
       try { await fb.A.signInWithEmailAndPassword(fb.auth, email, pass); return true; }
-      catch (e) { return false; }
+      catch (e) { cloudApi.lastError = e; return false; }
     },
 
     signOut: async function () {
-      if (fb && fb.auth.currentUser) { try { await fb.A.signOut(fb.auth); } catch (_) {} }
+      if (fb && fb.auth && fb.auth.currentUser) { try { await fb.A.signOut(fb.auth); } catch (_) {} }
     },
 
     list: async function () {
-      await loadFirebase();
+      await loadAuth();
       var q = await fb.D.getDocs(fb.D.collection(fb.db, 'roster'));
       var out = [];
       q.forEach(function (d) { out.push(Object.assign({ id: d.id }, d.data())); });
@@ -191,9 +213,10 @@
       return out;
     },
 
-    create: async function (name, email) {
-      await loadFirebase();
-      var mail = String(email).trim().toLowerCase(), pass = genPass();
+    create: async function (name, email, chosen) {
+      await loadAuth();
+      var mail = String(email).trim().toLowerCase();
+      var pass = (chosen && String(chosen).trim()) || genPass();
       var rid = await emailId(mail), aid = await fingerprint(mail, pass);
       await fb.D.setDoc(fb.D.doc(fb.db, 'access', aid), { name: name, email: mail });
       await fb.D.setDoc(fb.D.doc(fb.db, 'roster', rid), { name: name, email: mail, accessId: aid });
@@ -201,7 +224,7 @@
     },
 
     reset: async function (id) {
-      await loadFirebase();
+      await loadAuth();
       var snap = await fb.D.getDoc(fb.D.doc(fb.db, 'roster', id));
       if (!snap.exists()) throw new Error('no-user');
       var d = snap.data(), pass = genPass();
@@ -213,7 +236,7 @@
     },
 
     update: async function (id, name, email, pass) {
-      await loadFirebase();
+      await loadAuth();
       var snap = await fb.D.getDoc(fb.D.doc(fb.db, 'roster', id));
       var old = snap.exists() ? snap.data() : {};
       var mail = String(email).trim().toLowerCase();
@@ -227,7 +250,7 @@
     },
 
     remove: async function (id) {
-      await loadFirebase();
+      await loadAuth();
       var snap = await fb.D.getDoc(fb.D.doc(fb.db, 'roster', id));
       if (snap.exists() && snap.data().accessId) {
         try { await fb.D.deleteDoc(fb.D.doc(fb.db, 'access', snap.data().accessId)); } catch (_) {}

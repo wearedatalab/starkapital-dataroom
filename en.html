@@ -478,7 +478,11 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
 .amodal-x{width:36px;height:36px;border-radius:10px;border:1px solid var(--border);background:none;color:var(--subtle2);font-size:15px;cursor:pointer;transition:.25s;flex:none}
 .amodal-x:hover{border-color:var(--lime);color:var(--lime)}
 .amodal-sub{font-size:13px;color:var(--body);margin:10px 0 20px}
-.amodal-form{display:grid;grid-template-columns:1fr 1.2fr auto;gap:10px}
+.amodal-form{display:grid;grid-template-columns:1fr 1.2fr 1fr auto;gap:10px;align-items:start}
+.amodal-form .aep{display:flex;gap:6px}
+.amodal-form .aep input{flex:1;min-width:0}
+#advGen{border:1px solid var(--border);background:none;color:var(--olive);border-radius:9px;width:38px;cursor:pointer;font-size:14px;transition:.25s;flex:none}
+#advGen:hover{border-color:var(--lime);color:var(--lime)}
 .amodal-form input{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:11px;color:#fff;font-family:inherit;font-size:14px;font-weight:300;padding:13px 14px;outline:0;min-width:0;transition:.25s}
 .amodal-form input:focus{border-color:var(--lime)}
 .amodal-form .btn{padding:13px 20px;font-size:13.5px}
@@ -621,6 +625,7 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
     <form class="amodal-form" id="adminForm" novalidate>
       <input type="text" id="advName" placeholder="Full name" autocomplete="off">
       <input type="email" id="advEmail" placeholder="email@company.com" autocomplete="off">
+      <div class="aep"><input type="text" id="advPass" placeholder="Password (optional)" autocomplete="off"><button type="button" id="advGen" title="Generate password">↻</button></div>
       <button type="submit" class="btn btn-p">Add</button>
     </form>
     <p class="amodal-err" id="adminErr"></p>
@@ -1141,7 +1146,7 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
   form.addEventListener('submit',async e=>{
     e.preventDefault();
     if(busy)return;
-    const v=email.value.trim().toLowerCase(),pw=pass.value;
+    const v=email.value.trim().toLowerCase(),pw=pass.value.trim();
     if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)){
       errMsg.textContent='Enter a valid email address to continue.';err.classList.add('show');email.focus();return;
     }
@@ -1183,9 +1188,9 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
   function fail(m){aErr.textContent=m;aErr.classList.add('show')}
   function showKey(n,em,pw){
     aKey.hidden=false;
-    aKey.innerHTML='<span><b style="color:#fff;font-weight:600">Password for '+esc(n)+'</b> · '+esc(em)+' → <code>'+esc(pw)+'</code></span><button type="button" id="akCopy">Copy</button>';
+    aKey.innerHTML='<span><b style="color:#fff;font-weight:600">Password for '+esc(n)+'</b> · '+esc(em)+' → <code>'+esc(pw)+'</code></span><button type="button" id="akCopy">Copy password</button>';
     document.getElementById('akCopy').onclick=function(){
-      if(navigator.clipboard)navigator.clipboard.writeText(em+' / '+pw);
+      if(navigator.clipboard)navigator.clipboard.writeText(pw);
       this.textContent='Copied';
     };
   }
@@ -1258,6 +1263,7 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
       b.textContent='Copied! Paste it into users.js and bump the version';setTimeout(()=>{b.textContent='Copy list to publish'},4000);
     };
   })();
+  (function(){const g=document.getElementById('advGen');if(g)g.onclick=()=>{document.getElementById('advPass').value=AUTH.genPass()}})();
   document.getElementById('adminClose').addEventListener('click',()=>modal.hidden=true);
   modal.addEventListener('click',e=>{if(e.target===modal)modal.hidden=true});
   aForm.addEventListener('submit',async e=>{
@@ -1270,8 +1276,8 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
     const btn=aForm.querySelector('button[type=submit]'),lbl=btn.textContent;
     btn.disabled=true;btn.textContent='Saving…';
     try{
-      const r=await AUTH.create(n,v);
-      aName.value='';aEmail.value='';
+      const r=await AUTH.create(n,v,document.getElementById('advPass').value);
+      aName.value='';aEmail.value='';document.getElementById('advPass').value='';
       await renderInv();showKey(n,v,r.pass);
     }catch(_){fail('Could not save. Check your connection and try again.')}
     btn.disabled=false;btn.textContent=lbl;
