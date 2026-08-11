@@ -161,6 +161,16 @@
         });
       } catch (_) { auth = A.getAuth(fb.app); }
       fb.auth = auth; fb.A = A;
+      /* Esperar a que Firebase restaure la sesión guardada. Sin esto,
+         tras recargar la página las operaciones del administrador se
+         lanzan sin sesión y el servidor las rechaza en silencio. */
+      await new Promise(function (res) {
+        var done = false;
+        var off = A.onAuthStateChanged(auth, function () {
+          if (done) return; done = true; try { off(); } catch (_) {} res();
+        });
+        setTimeout(function () { if (!done) { done = true; res(); } }, 6000);
+      });
     })();
     return authP;
   }
@@ -206,6 +216,7 @@
 
     list: async function () {
       await loadAuth();
+      if (!fb.auth.currentUser) throw new Error('sin-sesion-admin');
       var q = await fb.D.getDocs(fb.D.collection(fb.db, 'roster'));
       var out = [];
       q.forEach(function (d) { out.push(Object.assign({ id: d.id }, d.data())); });
