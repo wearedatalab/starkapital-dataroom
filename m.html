@@ -478,7 +478,7 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
 .amodal-x{width:36px;height:36px;border-radius:10px;border:1px solid var(--border);background:none;color:var(--subtle2);font-size:15px;cursor:pointer;transition:.25s;flex:none}
 .amodal-x:hover{border-color:var(--lime);color:var(--lime)}
 .amodal-sub{font-size:13px;color:var(--body);margin:10px 0 20px}
-.amodal-form{display:grid;grid-template-columns:1fr 1.2fr 1fr auto;gap:10px;align-items:start}
+.amodal-form{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:start}
 .amodal-form .aep{display:flex;gap:6px}
 .amodal-form .aep input{flex:1;min-width:0}
 #advGen{border:1px solid var(--border);background:none;color:var(--olive);border-radius:9px;width:38px;cursor:pointer;font-size:14px;transition:.25s;flex:none}
@@ -1200,12 +1200,12 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
     try{rows=await AUTH.list()}catch(_){rows=[];fail('No se pudo guardar. Revise su conexión e intente de nuevo.')}
     const html=rows.map(x=>{
       if(x.id===editId){
-        const pv=AUTH.isCloud?genPass():(x.pass||'');
+        const pv=AUTH.isCloud?'':(x.pass||'');
         return '<div class="arow aediting"><div class="aef">'
           +'<input class="aei" id="aeName" value="'+esc(x.name)+'" placeholder="Nombre completo">'
           +'<input class="aei" id="aeEmail" value="'+esc(x.email)+'" placeholder="correo@compania.com">'
-          +'<div class="aep"><input class="aei" id="aePass" value="'+esc(pv)+'" placeholder="Clave"><button type="button" class="aegen" title="Generar clave nueva">↻</button></div>'
-          +(AUTH.isCloud?'<p class="aehint">Al guardar se asignará esta clave nueva. Anótela: no podrá consultarla después.</p>':'')
+          +'<div class="aep"><input class="aei" id="aePass" value="'+esc(pv)+'" placeholder="Nueva clave (opcional)"><button type="button" class="aegen" title="Generar clave nueva">↻</button></div>'
+          +(AUTH.isCloud?'<p class="aehint">Deje la clave vacía para no cambiarla. Si escribe una, anótela: no podrá consultarla después.</p>':'')
           +'</div><div class="aeb"><button type="button" class="aesave">Guardar</button><button type="button" class="aecancel">Cancelar</button><button type="button" class="aedelete">Eliminar</button></div></div>';
       }
       const ini=esc(x.name.trim().split(/\s+/).map(p=>p[0]).slice(0,2).join('').toUpperCase());
@@ -1231,10 +1231,11 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
         if(n.length<3)return fail('Ingrese el nombre completo del inversionista.');
         if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v))return fail('Ingrese un correo válido.');
         if(v===AUTH.adminEmail||rows.some(x=>x.id!==editId&&String(x.email).toLowerCase()===v))return fail('Ese correo ya está registrado.');
-        if(p.length<4)return fail('La clave debe tener al menos 4 caracteres.');
+        if(p&&p.length<4)return fail('La clave debe tener al menos 4 caracteres.');
+        if(!p&&v!==String((rows.filter(x=>x.id===editId)[0]||{}).email||'').toLowerCase())return fail('Para cambiar el correo debe asignar una clave nueva.');
         aErr.classList.remove('show');
         const btn=ed.querySelector('.aesave');btn.disabled=true;btn.textContent='Guardando…';
-        try{await AUTH.update(editId,n,v,p);editId=null;await renderInv();showKey(n,v,p)}
+        try{await AUTH.update(editId,n,v,p);editId=null;await renderInv();if(p)showKey(n,v,p)}
         catch(_){fail('No se pudo guardar. Revise su conexión e intente de nuevo.');btn.disabled=false;btn.textContent='Guardar'}
       };
       ed.querySelector('.aecancel').onclick=()=>{editId=null;aErr.classList.remove('show');renderInv()};

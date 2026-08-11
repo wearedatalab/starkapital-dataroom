@@ -117,7 +117,8 @@
     },
     update: function (id, name, email, pass) {
       var l = localApi._get();
-      l[+id] = { name: name, email: String(email).toLowerCase(), pass: pass };
+      l[+id] = { name: name, email: String(email).toLowerCase(),
+                 pass: pass || l[+id].pass };
       localApi._set(l);
       return Promise.resolve();
     },
@@ -251,6 +252,19 @@
       var snap = await fb.D.getDoc(fb.D.doc(fb.db, 'roster', id));
       var old = snap.exists() ? snap.data() : {};
       var mail = String(email).trim().toLowerCase();
+
+      /* Sin clave nueva se conserva la vigente: solo se actualiza el
+         nombre. El correo no puede cambiar, porque la huella guardada
+         depende de él y no es posible recalcularla sin la clave. */
+      if (!pass) {
+        if (!old.accessId || mail !== String(old.email || '').toLowerCase()) {
+          throw new Error('clave-requerida');
+        }
+        await fb.D.setDoc(fb.D.doc(fb.db, 'access', old.accessId), { name: name, email: mail });
+        await fb.D.setDoc(fb.D.doc(fb.db, 'roster', id), { name: name, email: mail, accessId: old.accessId });
+        return;
+      }
+
       var nrid = await emailId(mail), aid = await fingerprint(mail, pass);
       await fb.D.setDoc(fb.D.doc(fb.db, 'access', aid), { name: name, email: mail });
       if (old.accessId && old.accessId !== aid) {
