@@ -302,6 +302,9 @@ button.uavatar:hover{box-shadow:0 0 0 4px rgba(229,242,36,.15)}
 .apub{margin-top:10px;width:100%;border:1px solid rgba(229,242,36,.4);background:rgba(229,242,36,.07);color:var(--lime);font-family:inherit;font-size:12.5px;font-weight:600;padding:11px;border-radius:100px;cursor:pointer;transition:.25s}
 .apub:hover{background:var(--lime);color:var(--navy)}
 
+
+.aehint{font-size:11px;color:var(--olive);line-height:1.45;margin-top:2px}
+
 /* reveal */
 .rv{opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1)}
 .rv.in{opacity:1;transform:none}
@@ -976,7 +979,9 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
 </div>
 </div><!-- /#page -->
 
+<script src="config.js"></script>
 <script src="users.js"></script>
+<script src="auth.js"></script>
 <script>
 /* ================= GATE + PRELOADER ================= */
 (function(){
@@ -1037,17 +1042,9 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
   const esc=t=>String(t).replace(/[<>&"]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]));
 
   /* ---- base de inversionistas (localStorage, la administra el admin) ---- */
-  function getInv(){try{const v=JSON.parse(localStorage.getItem(IKEY));return Array.isArray(v)?v:[]}catch(_){return []}}
-  function setInv(list){try{localStorage.setItem(IKEY,JSON.stringify(list))}catch(_){}}
-  /* lista publicada (users.js) — se sincroniza en todos los dispositivos */
-  const PUB=Array.isArray(window.SK_USERS)?window.SK_USERS:[],PUBV=+window.SK_USERS_VERSION||0;
-  (function(){
-    let sv=0;try{sv=+localStorage.getItem('sk_dr_ver')||0}catch(_){}
-    if(!localStorage.getItem(IKEY)||sv<PUBV){
-      setInv(PUB.map(x=>({name:x.name,email:String(x.email).toLowerCase(),pass:x.pass})));
-      try{localStorage.setItem('sk_dr_ver',PUBV)}catch(_){}
-    }
-  })();
+  /* accesos: nube (config.js) o lista publicada (users.js) */
+  const AUTH=window.SKAuth;
+  AUTH.sync();
 
   function getUser(){try{return JSON.parse(sessionStorage.getItem(KEY))}catch(_){return null}}
   function setUserUI(u){
@@ -1139,23 +1136,29 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
   document.getElementById('ulogout').addEventListener('click',()=>runExit(getUser()));
 
   /* ---- login con usuario y clave ---- */
-  function genPass(){const C='ABCDEFGHJKMNPQRSTUVWXYZ23456789';let p='';for(let i=0;i<8;i++)p+=C[Math.floor(Math.random()*C.length)];return p}
-  function getAdminPass(){try{return localStorage.getItem('sk_dr_adminpass')||'starkadmin2026'}catch(_){return 'starkadmin2026'}}
-  form.addEventListener('submit',e=>{
+  const genPass=()=>AUTH.genPass();
+  let busy=false;
+  form.addEventListener('submit',async e=>{
     e.preventDefault();
+    if(busy)return;
     const v=email.value.trim().toLowerCase(),pw=pass.value;
     if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)){
       errMsg.textContent='Enter a valid email address to continue.';err.classList.add('show');email.focus();return;
     }
     if(!pw){errMsg.textContent='Enter your password.';err.classList.add('show');pass.focus();return}
-    let u=null;
-    if(v===ADMIN.email.toLowerCase()&&pw===getAdminPass()) u={name:ADMIN.name,email:ADMIN.email,role:'admin'};
-    else{
-      const hit=getInv().find(x=>x.email.toLowerCase()===v&&x.pass===pw);
-      if(hit) u={name:hit.name,email:hit.email,role:'inversionista'};
-    }
+    const btn=form.querySelector('button[type=submit]'),lbl=btn.innerHTML;
+    busy=true;btn.disabled=true;btn.textContent='Checking…';
+    let u=null,failed=false;
+    try{
+      if(v===AUTH.adminEmail){
+        if(await AUTH.adminLogin(v,pw)) u={name:ADMIN.name,email:ADMIN.email,role:'admin'};
+      }else{
+        u=await AUTH.login(v,pw);
+      }
+    }catch(_){failed=true}
+    busy=false;btn.disabled=false;btn.innerHTML=lbl;
     if(!u){
-      errMsg.textContent='Incorrect username or password. Request access from the administrator.';
+      errMsg.textContent=failed?'Could not connect. Check your connection and try again.':'Incorrect username or password. Request access from the administrator.';
       err.classList.add('show');pass.focus();return;
     }
     err.classList.remove('show');
@@ -1172,11 +1175,12 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
     document.addEventListener('keydown',e=>{if(e.key==='Escape')d.hidden=true});
   })();
 
-  /* ---- panel admin: crear, reiniciar clave y eliminar ---- */
+  /* ---- panel admin: crear, editar, reiniciar clave y eliminar ---- */
   const modal=document.getElementById('adminModal'),aList=document.getElementById('adminList'),
         aForm=document.getElementById('adminForm'),aName=document.getElementById('advName'),
         aEmail=document.getElementById('advEmail'),aErr=document.getElementById('adminErr'),
         aKey=document.getElementById('adminKey');
+  function fail(m){aErr.textContent=m;aErr.classList.add('show')}
   function showKey(n,em,pw){
     aKey.hidden=false;
     aKey.innerHTML='<span><b style="color:#fff;font-weight:600">Password for '+esc(n)+'</b> · '+esc(em)+' → <code>'+esc(pw)+'</code></span><button type="button" id="akCopy">Copy</button>';
@@ -1185,66 +1189,92 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
       this.textContent='Copied';
     };
   }
-  let editIdx=null;
-  function renderInv(){
-    const rows=getInv().map((x,i)=>{
-      if(i===editIdx){
+  let editId=null,rows=[];
+  async function renderInv(){
+    aList.innerHTML='<div class="arow"><span class="ainfo"><b>Loading…</b></span></div>';
+    try{rows=await AUTH.list()}catch(_){rows=[];fail('Could not save. Check your connection and try again.')}
+    const html=rows.map(x=>{
+      if(x.id===editId){
+        const pv=AUTH.isCloud?genPass():(x.pass||'');
         return '<div class="arow aediting"><div class="aef">'
           +'<input class="aei" id="aeName" value="'+esc(x.name)+'" placeholder="Full name">'
           +'<input class="aei" id="aeEmail" value="'+esc(x.email)+'" placeholder="email@company.com">'
-          +'<div class="aep"><input class="aei" id="aePass" value="'+esc(x.pass)+'" placeholder="Password"><button type="button" class="aegen" title="Generate new password">↻</button></div>'
+          +'<div class="aep"><input class="aei" id="aePass" value="'+esc(pv)+'" placeholder="Password"><button type="button" class="aegen" title="Generate new password">↻</button></div>'
+          +(AUTH.isCloud?'<p class="aehint">Saving will assign this new password. Write it down: you will not be able to look it up later.</p>':'')
           +'</div><div class="aeb"><button type="button" class="aesave">Save</button><button type="button" class="aecancel">Cancel</button><button type="button" class="aedelete">Delete</button></div></div>';
       }
       const ini=esc(x.name.trim().split(/\s+/).map(p=>p[0]).slice(0,2).join('').toUpperCase());
-      return '<div class="arow"><span class="uavatar">'+ini+'</span><span class="ainfo"><b>'+esc(x.name)+'</b><small>'+esc(x.email)+'</small></span><button class="aed" data-i="'+i+'" title="Edit user">✎</button><button class="ares" data-i="'+i+'" title="Reset password">↻</button><button class="adel" data-i="'+i+'" title="Delete user">✕</button></div>';
+      return '<div class="arow"><span class="uavatar">'+ini+'</span><span class="ainfo"><b>'+esc(x.name)+'</b><small>'+esc(x.email)+'</small></span><button class="aed" data-id="'+esc(x.id)+'" title="Edit user">✎</button><button class="ares" data-id="'+esc(x.id)+'" title="Reset password">↻</button><button class="adel" data-id="'+esc(x.id)+'" title="Delete user">✕</button></div>';
     }).join('');
-    aList.innerHTML='<div class="arow isadmin"><span class="uavatar">JF</span><span class="ainfo"><b>'+esc(ADMIN.name)+'</b><small>'+esc(ADMIN.email)+'</small></span><span class="atag">ADMIN</span></div>'+rows;
-    aList.querySelectorAll('.aed').forEach(b=>b.onclick=()=>{editIdx=+b.dataset.i;aErr.classList.remove('show');aKey.hidden=true;renderInv()});
-    aList.querySelectorAll('.adel').forEach(b=>b.onclick=()=>{
-      const list=getInv();list.splice(+b.dataset.i,1);setInv(list);renderInv();
+    aList.innerHTML='<div class="arow isadmin"><span class="uavatar">JF</span><span class="ainfo"><b>'+esc(ADMIN.name)+'</b><small>'+esc(ADMIN.email)+'</small></span><span class="atag">ADMIN</span></div>'+html;
+    aList.querySelectorAll('.aed').forEach(b=>b.onclick=()=>{editId=b.dataset.id;aErr.classList.remove('show');aKey.hidden=true;renderInv()});
+    aList.querySelectorAll('.adel').forEach(b=>b.onclick=async()=>{
+      b.disabled=true;
+      try{await AUTH.remove(b.dataset.id);aKey.hidden=true;await renderInv()}catch(_){fail('Could not save. Check your connection and try again.');b.disabled=false}
     });
-    aList.querySelectorAll('.ares').forEach(b=>b.onclick=()=>{
-      const list=getInv(),x=list[+b.dataset.i];x.pass=genPass();setInv(list);showKey(x.name,x.email,x.pass);
+    aList.querySelectorAll('.ares').forEach(b=>b.onclick=async()=>{
+      b.disabled=true;
+      try{const r=await AUTH.reset(b.dataset.id);await renderInv();showKey(r.name,r.email,r.pass)}
+      catch(_){fail('Could not save. Check your connection and try again.');b.disabled=false}
     });
     const ed=aList.querySelector('.aediting');
     if(ed){
       const N=ed.querySelector('#aeName'),E=ed.querySelector('#aeEmail'),P=ed.querySelector('#aePass');
       ed.querySelector('.aegen').onclick=()=>{P.value=genPass()};
-      ed.querySelector('.aesave').onclick=()=>{
+      ed.querySelector('.aesave').onclick=async()=>{
         const n=N.value.trim(),v=E.value.trim().toLowerCase(),p=P.value.trim();
-        if(n.length<3){aErr.textContent='Enter the investor’s full name.';aErr.classList.add('show');return}
-        if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)){aErr.textContent='Enter a valid email address.';aErr.classList.add('show');return}
-        if(v===ADMIN.email.toLowerCase()||getInv().some((x,j)=>j!==editIdx&&x.email.toLowerCase()===v)){aErr.textContent='That email is already registered.';aErr.classList.add('show');return}
-        if(p.length<4){aErr.textContent='Password must be at least 4 characters.';aErr.classList.add('show');return}
+        if(n.length<3)return fail('Enter the investor’s full name.');
+        if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v))return fail('Enter a valid email address.');
+        if(v===AUTH.adminEmail||rows.some(x=>x.id!==editId&&String(x.email).toLowerCase()===v))return fail('That email is already registered.');
+        if(p.length<4)return fail('Password must be at least 4 characters.');
         aErr.classList.remove('show');
-        const list=getInv();list[editIdx]={name:n,email:v,pass:p};setInv(list);
-        editIdx=null;renderInv();showKey(n,v,p);
+        const btn=ed.querySelector('.aesave');btn.disabled=true;btn.textContent='Saving…';
+        try{await AUTH.update(editId,n,v,p);editId=null;await renderInv();showKey(n,v,p)}
+        catch(_){fail('Could not save. Check your connection and try again.');btn.disabled=false;btn.textContent='Save'}
       };
-      ed.querySelector('.aecancel').onclick=()=>{editIdx=null;aErr.classList.remove('show');renderInv()};
-      ed.querySelector('.aedelete').onclick=()=>{const l=getInv();l.splice(editIdx,1);setInv(l);editIdx=null;renderInv()};
+      ed.querySelector('.aecancel').onclick=()=>{editId=null;aErr.classList.remove('show');renderInv()};
+      ed.querySelector('.aedelete').onclick=async()=>{
+        try{await AUTH.remove(editId);editId=null;aKey.hidden=true;await renderInv()}catch(_){fail('Could not save. Check your connection and try again.')}
+      };
     }
   }
-  document.getElementById('uadmin').addEventListener('click',()=>{editIdx=null;renderInv();aErr.classList.remove('show');aKey.hidden=true;document.getElementById('udrop').hidden=true;modal.hidden=false});
+  document.getElementById('uadmin').addEventListener('click',()=>{
+    editId=null;aErr.classList.remove('show');aKey.hidden=true;
+    document.getElementById('udrop').hidden=true;modal.hidden=false;renderInv();
+  });
   (function(){
-    const b=document.getElementById('adminPub');if(!b)return;
-    b.onclick=()=>{
+    const b=document.getElementById('adminPub'),note=document.querySelector('.apub-note');
+    if(AUTH.isCloud){
+      if(b)b.hidden=true;
+      if(note)note.textContent='Connected to the cloud. Access you create here works immediately on any device. Passwords are stored encrypted: they cannot be looked up later, only reset.';
+      return;
+    }
+    if(!b)return;
+    b.onclick=async()=>{
+      const list=await AUTH.list();
       const txt='window.SK_USERS_VERSION = '+((+window.SK_USERS_VERSION||0)+1)+';\n\nwindow.SK_USERS = '
-        +JSON.stringify(getInv().map(x=>({name:x.name,email:x.email,pass:x.pass})),null,2)+';';
+        +JSON.stringify(list.map(x=>({name:x.name,email:x.email,pass:x.pass})),null,2)+';';
       if(navigator.clipboard)navigator.clipboard.writeText(txt);
       b.textContent='Copied! Paste it into users.js and bump the version';setTimeout(()=>{b.textContent='Copy list to publish'},4000);
     };
   })();
   document.getElementById('adminClose').addEventListener('click',()=>modal.hidden=true);
   modal.addEventListener('click',e=>{if(e.target===modal)modal.hidden=true});
-  aForm.addEventListener('submit',e=>{
+  aForm.addEventListener('submit',async e=>{
     e.preventDefault();
     const n=aName.value.trim(),v=aEmail.value.trim().toLowerCase();
-    if(n.length<3){aErr.textContent='Enter the investor’s full name.';aErr.classList.add('show');return}
-    if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)){aErr.textContent='Enter a valid email address.';aErr.classList.add('show');return}
-    if(v===ADMIN.email.toLowerCase()||getInv().some(x=>x.email.toLowerCase()===v)){aErr.textContent='That email is already registered.';aErr.classList.add('show');return}
+    if(n.length<3)return fail('Enter the investor’s full name.');
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v))return fail('Enter a valid email address.');
+    if(v===AUTH.adminEmail||rows.some(x=>String(x.email).toLowerCase()===v))return fail('That email is already registered.');
     aErr.classList.remove('show');
-    const pw=genPass(),list=getInv();list.push({name:n,email:v,pass:pw});setInv(list);
-    aName.value='';aEmail.value='';renderInv();showKey(n,v,pw);
+    const btn=aForm.querySelector('button[type=submit]'),lbl=btn.textContent;
+    btn.disabled=true;btn.textContent='Saving…';
+    try{
+      const r=await AUTH.create(n,v);
+      aName.value='';aEmail.value='';
+      await renderInv();showKey(n,v,r.pass);
+    }catch(_){fail('Could not save. Check your connection and try again.')}
+    btn.disabled=false;btn.textContent=lbl;
   });
 })();
 
