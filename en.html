@@ -297,6 +297,11 @@ button.uavatar:hover{box-shadow:0 0 0 4px rgba(229,242,36,.15)}
 .aedelete{color:#ffb4b4}
 .aedelete:hover{border-color:#ffb4b4;background:rgba(255,120,120,.07)}
 
+
+.apub-note{margin-top:16px;font-size:11.5px;color:var(--body);line-height:1.5;border-top:1px solid var(--border);padding-top:14px}
+.apub{margin-top:10px;width:100%;border:1px solid rgba(229,242,36,.4);background:rgba(229,242,36,.07);color:var(--lime);font-family:inherit;font-size:12.5px;font-weight:600;padding:11px;border-radius:100px;cursor:pointer;transition:.25s}
+.apub:hover{background:var(--lime);color:var(--navy)}
+
 /* reveal */
 .rv{opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1)}
 .rv.in{opacity:1;transform:none}
@@ -617,6 +622,8 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
     </form>
     <p class="amodal-err" id="adminErr"></p>
     <div class="akey" id="adminKey" hidden></div>
+    <p class="apub-note">Official credentials travel with the site (users.js). What you create here works in this browser; to make it work on any device, click “Copy list to publish” and publish the file.</p>
+    <button type="button" class="apub" id="adminPub">Copy list to publish</button>
     <div class="amodal-list" id="adminList"></div>
   </div>
 </div>
@@ -969,6 +976,7 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
 </div>
 </div><!-- /#page -->
 
+<script src="users.js"></script>
 <script>
 /* ================= GATE + PRELOADER ================= */
 (function(){
@@ -1031,8 +1039,15 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
   /* ---- base de inversionistas (localStorage, la administra el admin) ---- */
   function getInv(){try{const v=JSON.parse(localStorage.getItem(IKEY));return Array.isArray(v)?v:[]}catch(_){return []}}
   function setInv(list){try{localStorage.setItem(IKEY,JSON.stringify(list))}catch(_){}}
-  if(!localStorage.getItem(IKEY)) setInv([{name:'Inversionista Demo',email:'demo@starkapital.com',pass:'demo2026'}]);
-  (function(){const l=getInv();let ch=false;l.forEach(x=>{if(!x.pass){x.pass='demo2026';ch=true}});if(ch)setInv(l)})();
+  /* lista publicada (users.js) — se sincroniza en todos los dispositivos */
+  const PUB=Array.isArray(window.SK_USERS)?window.SK_USERS:[],PUBV=+window.SK_USERS_VERSION||0;
+  (function(){
+    let sv=0;try{sv=+localStorage.getItem('sk_dr_ver')||0}catch(_){}
+    if(!localStorage.getItem(IKEY)||sv<PUBV){
+      setInv(PUB.map(x=>({name:x.name,email:String(x.email).toLowerCase(),pass:x.pass})));
+      try{localStorage.setItem('sk_dr_ver',PUBV)}catch(_){}
+    }
+  })();
 
   function getUser(){try{return JSON.parse(sessionStorage.getItem(KEY))}catch(_){return null}}
   function setUserUI(u){
@@ -1210,6 +1225,15 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
     }
   }
   document.getElementById('uadmin').addEventListener('click',()=>{editIdx=null;renderInv();aErr.classList.remove('show');aKey.hidden=true;document.getElementById('udrop').hidden=true;modal.hidden=false});
+  (function(){
+    const b=document.getElementById('adminPub');if(!b)return;
+    b.onclick=()=>{
+      const txt='window.SK_USERS_VERSION = '+((+window.SK_USERS_VERSION||0)+1)+';\n\nwindow.SK_USERS = '
+        +JSON.stringify(getInv().map(x=>({name:x.name,email:x.email,pass:x.pass})),null,2)+';';
+      if(navigator.clipboard)navigator.clipboard.writeText(txt);
+      b.textContent='Copied! Paste it into users.js and bump the version';setTimeout(()=>{b.textContent='Copy list to publish'},4000);
+    };
+  })();
   document.getElementById('adminClose').addEventListener('click',()=>modal.hidden=true);
   modal.addEventListener('click',e=>{if(e.target===modal)modal.hidden=true});
   aForm.addEventListener('submit',e=>{
