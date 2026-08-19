@@ -1,24 +1,17 @@
 /* ============================================================
-   Starkapital · Data Room — Usuarios publicados
+   Starkapital · Data Room — Respaldo de accesos
    ------------------------------------------------------------
-   Esta es la lista OFICIAL de accesos. Funciona en cualquier
-   dispositivo y navegador porque viaja con el sitio.
+   VACÍO A PROPÓSITO.
 
-   Para agregar o cambiar un acceso:
-   1) Entre como admin → menú de cuenta → "Inversionistas".
-   2) Cree o edite los usuarios que necesite.
-   3) Pulse "Copiar lista para publicar".
-   4) Pegue el contenido copiado aquí abajo, reemplazando la
-      lista, SUBA EN 1 el número de SK_USERS_VERSION y publique
-      el archivo en GitHub.
+   Los accesos viven ahora en Firestore y se administran desde el
+   panel "Inversionistas" de la propia página.
 
-   Al subir la versión, todos los dispositivos se sincronizan
-   con esta lista la próxima vez que abran la página.
+   Esta lista solo se consulta si la nube no responde. Cualquier
+   credencial escrita aquí queda PÚBLICA (este archivo lo descarga
+   el navegador de cualquier visitante) y además saltaría los
+   permisos por documento. No agregue credenciales reales.
    ============================================================ */
 
-window.SK_USERS_VERSION = 2;
+window.SK_USERS_VERSION = 3;
 
-window.SK_USERS = [
-  { name: "Inversionista Demo",   email: "demo@starkapital.com",        pass: "demo2026" },
-  { name: "Comercial Educapital", email: "comercial@educapital.com.co", pass: "K7RMQ4XD" }
-];
+window.SK_USERS = [];

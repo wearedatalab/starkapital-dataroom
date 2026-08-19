@@ -12,6 +12,13 @@
 
    • LOCAL — si no hay configuración, funciona como antes con
              la lista publicada en users.js. Sirve de respaldo.
+
+   PERMISOS POR DOCUMENTO
+   Cada inversionista lleva un campo "docs":
+     · null / ausente  -> ve TODOS los documentos (valor por defecto,
+                          para no romper los accesos ya creados)
+     · ["ov1","fh2"]   -> ve únicamente esos documentos
+   Los identificadores provienen de docs.js.
    ============================================================ */
 (function (global) {
   'use strict';
@@ -33,6 +40,17 @@
       : a.forEach(function (_, i) { a[i] = Math.floor(Math.random() * 4294967296); });
     for (var i = 0; i < 8; i++) p += C[a[i] % C.length];
     return p;
+  }
+
+  /* Normaliza la lista de permisos: null = acceso a todo. */
+  function normDocs(v) {
+    if (!Array.isArray(v)) return null;
+    var known = {}, all = [];
+    (global.SK_DOCS || []).forEach(function (g) {
+      (g.d || []).forEach(function (x) { known[x.id] = 1; all.push(x.id); });
+    });
+    if (!all.length) return v.slice();
+    return v.filter(function (id) { return known[id]; });
   }
 
   function hex(buf) {
@@ -90,7 +108,9 @@
       var hit = localApi._get().filter(function (x) {
         return String(x.email).toLowerCase() === v && x.pass === pass;
       })[0];
-      return Promise.resolve(hit ? { name: hit.name, email: hit.email, role: 'inversionista' } : null);
+      return Promise.resolve(hit
+        ? { name: hit.name, email: hit.email, role: 'inversionista', docs: normDocs(hit.docs) }
+        : null);
     },
 
     adminLogin: function (email, pass) {
@@ -101,12 +121,12 @@
 
     list: function () {
       return Promise.resolve(localApi._get().map(function (x, i) {
-        return { id: String(i), name: x.name, email: x.email, pass: x.pass };
+        return { id: String(i), name: x.name, email: x.email, pass: x.pass, docs: normDocs(x.docs) };
       }));
     },
-    create: function (name, email, chosen) {
+    create: function (name, email, chosen, docs) {
       var pass = (chosen && String(chosen).trim()) || genPass(), l = localApi._get();
-      l.push({ name: name, email: String(email).toLowerCase(), pass: pass });
+      l.push({ name: name, email: String(email).toLowerCase(), pass: pass, docs: normDocs(docs) });
       localApi._set(l);
       return Promise.resolve({ pass: pass });
     },
@@ -115,10 +135,10 @@
       l[+id].pass = pass; localApi._set(l);
       return Promise.resolve({ pass: pass, name: l[+id].name, email: l[+id].email });
     },
-    update: function (id, name, email, pass) {
+    update: function (id, name, email, pass, docs) {
       var l = localApi._get();
       l[+id] = { name: name, email: String(email).toLowerCase(),
-                 pass: pass || l[+id].pass };
+                 pass: pass || l[+id].pass, docs: normDocs(docs) };
       localApi._set(l);
       return Promise.resolve();
     },
@@ -188,21 +208,25 @@
        users.js — así ningún acceso vigente se cae durante la
        migración. */
     login: async function (email, pass) {
+      var caido = false;
       try {
         await loadFirebase();
         var id = await fingerprint(email, pass);
         var snap = await fb.D.getDoc(fb.D.doc(fb.db, 'access', id));
         if (snap.exists()) {
           var d = snap.data();
-          return { name: d.name, email: d.email, role: 'inversionista' };
+          return { name: d.name, email: d.email, role: 'inversionista', docs: normDocs(d.docs) };
         }
-      } catch (e) { cloudApi.lastError = e; }
+      } catch (e) { cloudApi.lastError = e; caido = true; }
+      if (!caido) return null;   // la nube respondió: no hay tal credencial
       var v = String(email).trim().toLowerCase();
       var PUB = Array.isArray(global.SK_USERS) ? global.SK_USERS : [];
       var hit = PUB.filter(function (x) {
         return String(x.email).toLowerCase() === v && x.pass === pass;
       })[0];
-      return hit ? { name: hit.name, email: hit.email, role: 'inversionista' } : null;
+      return hit
+        ? { name: hit.name, email: hit.email, role: 'inversionista', docs: normDocs(hit.docs) }
+        : null;
     },
 
     adminLogin: async function (email, pass) {
@@ -220,18 +244,29 @@
       if (!fb.auth.currentUser) throw new Error('sin-sesion-admin');
       var q = await fb.D.getDocs(fb.D.collection(fb.db, 'roster'));
       var out = [];
-      q.forEach(function (d) { out.push(Object.assign({ id: d.id }, d.data())); });
+      q.forEach(function (d) {
+        var r = Object.assign({ id: d.id }, d.data());
+        r.docs = normDocs(r.docs);
+        out.push(r);
+      });
       out.sort(function (a, b) { return (a.name || '').localeCompare(b.name || ''); });
       return out;
     },
 
-    create: async function (name, email, chosen) {
+    create: async function (name, email, chosen, docs) {
       await loadAuth();
       var mail = String(email).trim().toLowerCase();
       var pass = (chosen && String(chosen).trim()) || genPass();
+      var perm = normDocs(docs);
       var rid = await emailId(mail), aid = await fingerprint(mail, pass);
-      await fb.D.setDoc(fb.D.doc(fb.db, 'access', aid), { name: name, email: mail });
-      await fb.D.setDoc(fb.D.doc(fb.db, 'roster', rid), { name: name, email: mail, accessId: aid });
+      try {
+        var prev = await fb.D.getDoc(fb.D.doc(fb.db, 'roster', rid));
+        if (prev.exists() && prev.data().accessId && prev.data().accessId !== aid) {
+          await fb.D.deleteDoc(fb.D.doc(fb.db, 'access', prev.data().accessId));
+        }
+      } catch (_) {}
+      await fb.D.setDoc(fb.D.doc(fb.db, 'access', aid), { name: name, email: mail, docs: perm });
+      await fb.D.setDoc(fb.D.doc(fb.db, 'roster', rid), { name: name, email: mail, accessId: aid, docs: perm });
       return { pass: pass };
     },
 
@@ -240,18 +275,20 @@
       var snap = await fb.D.getDoc(fb.D.doc(fb.db, 'roster', id));
       if (!snap.exists()) throw new Error('no-user');
       var d = snap.data(), pass = genPass();
+      var perm = normDocs(d.docs);
       var aid = await fingerprint(d.email, pass);
-      await fb.D.setDoc(fb.D.doc(fb.db, 'access', aid), { name: d.name, email: d.email });
+      await fb.D.setDoc(fb.D.doc(fb.db, 'access', aid), { name: d.name, email: d.email, docs: perm });
       if (d.accessId) { try { await fb.D.deleteDoc(fb.D.doc(fb.db, 'access', d.accessId)); } catch (_) {} }
-      await fb.D.setDoc(fb.D.doc(fb.db, 'roster', id), { name: d.name, email: d.email, accessId: aid });
+      await fb.D.setDoc(fb.D.doc(fb.db, 'roster', id), { name: d.name, email: d.email, accessId: aid, docs: perm });
       return { pass: pass, name: d.name, email: d.email };
     },
 
-    update: async function (id, name, email, pass) {
+    update: async function (id, name, email, pass, docs) {
       await loadAuth();
       var snap = await fb.D.getDoc(fb.D.doc(fb.db, 'roster', id));
       var old = snap.exists() ? snap.data() : {};
       var mail = String(email).trim().toLowerCase();
+      var perm = normDocs(docs);
 
       /* Sin clave nueva se conserva la vigente: solo se actualiza el
          nombre. El correo no puede cambiar, porque la huella guardada
@@ -260,17 +297,17 @@
         if (!old.accessId || mail !== String(old.email || '').toLowerCase()) {
           throw new Error('clave-requerida');
         }
-        await fb.D.setDoc(fb.D.doc(fb.db, 'access', old.accessId), { name: name, email: mail });
-        await fb.D.setDoc(fb.D.doc(fb.db, 'roster', id), { name: name, email: mail, accessId: old.accessId });
+        await fb.D.setDoc(fb.D.doc(fb.db, 'access', old.accessId), { name: name, email: mail, docs: perm });
+        await fb.D.setDoc(fb.D.doc(fb.db, 'roster', id), { name: name, email: mail, accessId: old.accessId, docs: perm });
         return;
       }
 
       var nrid = await emailId(mail), aid = await fingerprint(mail, pass);
-      await fb.D.setDoc(fb.D.doc(fb.db, 'access', aid), { name: name, email: mail });
+      await fb.D.setDoc(fb.D.doc(fb.db, 'access', aid), { name: name, email: mail, docs: perm });
       if (old.accessId && old.accessId !== aid) {
         try { await fb.D.deleteDoc(fb.D.doc(fb.db, 'access', old.accessId)); } catch (_) {}
       }
-      await fb.D.setDoc(fb.D.doc(fb.db, 'roster', nrid), { name: name, email: mail, accessId: aid });
+      await fb.D.setDoc(fb.D.doc(fb.db, 'roster', nrid), { name: name, email: mail, accessId: aid, docs: perm });
       if (nrid !== id) { try { await fb.D.deleteDoc(fb.D.doc(fb.db, 'roster', id)); } catch (_) {} }
     },
 
@@ -288,5 +325,6 @@
   api.genPass = genPass;
   api.isCloud = mode === 'cloud';
   api.adminEmail = ADMIN_EMAIL;
+  api.normDocs = normDocs;
   global.SKAuth = api;
 })(window);

@@ -326,6 +326,32 @@ button.uavatar:hover{box-shadow:0 0 0 4px rgba(229,242,36,.15)}
 
 .aehint{font-size:11px;color:var(--olive);line-height:1.45;margin-top:2px}
 
+
+/* ---- selector de documentos por inversionista ---- */
+.dsel{grid-column:1/-1;border:1px solid var(--border);border-radius:12px;background:rgba(255,255,255,.02);overflow:hidden;margin-top:2px}
+.dsel-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:11px 14px;border-bottom:1px solid var(--border)}
+.dsel-head b{font-size:12px;font-weight:600;color:#fff;letter-spacing:.02em;margin-right:auto}
+.dsel-head button{border:1px solid var(--border);background:none;color:var(--subtle2);font-family:inherit;font-size:11px;padding:5px 11px;border-radius:100px;cursor:pointer;transition:.2s}
+.dsel-head button:hover{border-color:var(--lime);color:var(--lime)}
+.dsel-n{font-size:11px;font-weight:600;color:var(--navy);background:var(--lime);border-radius:100px;padding:3px 9px}
+.dsel-body{max-height:210px;overflow-y:auto;padding:6px 4px 8px}
+.dsel-g{display:flex;align-items:center;gap:9px;padding:8px 12px 6px;font-size:12px;font-weight:600;color:var(--lime);letter-spacing:.04em;text-transform:uppercase;cursor:pointer}
+.dsel-d{display:flex;align-items:flex-start;gap:9px;padding:6px 12px 6px 30px;font-size:13px;color:var(--subtle2);cursor:pointer;line-height:1.35;border-radius:7px}
+.dsel-d:hover{background:rgba(255,255,255,.04);color:#fff}
+.dsel input[type=checkbox]{appearance:none;-webkit-appearance:none;width:16px;height:16px;flex:none;margin-top:1px;border:1.5px solid var(--border);border-radius:4px;background:rgba(0,0,0,.25);cursor:pointer;position:relative;transition:.15s}
+.dsel input[type=checkbox]:checked{background:var(--lime);border-color:var(--lime)}
+.dsel input[type=checkbox]:checked::after{content:'';position:absolute;left:4.5px;top:1px;width:4px;height:8px;border:solid var(--navy);border-width:0 2px 2px 0;transform:rotate(42deg)}
+.dsel input[type=checkbox]:indeterminate{background:rgba(229,242,36,.35);border-color:var(--lime)}
+.dsel input[type=checkbox]:indeterminate::after{content:'';position:absolute;left:3px;top:6px;width:8px;height:2px;background:var(--lime)}
+.dsel-hint{font-size:11px;color:var(--body);padding:0 14px 11px;line-height:1.45}
+.aperm{font-size:10px;font-weight:600;letter-spacing:.04em;color:var(--olive);border:1px solid rgba(178,191,0,.4);border-radius:100px;padding:3px 9px;flex:none;white-space:nowrap}
+.aperm.all{color:var(--body);border-color:var(--border)}
+.dg-empty{border:1px dashed var(--border);border-radius:16px;padding:30px;text-align:center;color:var(--body);font-size:15px}
+@media(max-width:600px){.dsel-body{max-height:170px}.dsel-d{font-size:12.5px;padding-left:26px}}
+
+
+}
+
 /* reveal */
 .rv{opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1)}
 .rv.in{opacity:1;transform:none}
@@ -521,6 +547,15 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
 .arow .atag{font-size:9.5px;font-weight:700;letter-spacing:.1em;color:var(--navy);background:var(--lime);border-radius:100px;padding:2px 8px;flex:none}
 @media(max-width:600px){.amodal-form{grid-template-columns:1fr}.amodal-card{padding:22px}}
 @media(prefers-reduced-motion:reduce){.ld-veh{animation-duration:.01ms}.ld-bar i{animation-duration:.4s}}
+
+/* --- filas de inversionistas legibles en pantallas pequeñas --- */
+@media(max-width:600px){
+  .arow{flex-wrap:wrap;row-gap:6px}
+  .arow .ainfo{flex:1 0 100%;order:1;min-width:0}
+  .arow .uavatar{order:0}
+  .arow .aperm,.arow .atag{order:2;margin-left:44px}
+  .arow .aed,.arow .ares,.arow .adel{order:3;width:34px;height:34px;display:flex;align-items:center;justify-content:center}
+}
 </style>
 <script>if(Math.min(screen.width,window.innerWidth||9999)<820&&!/[?&]desktop/.test(location.search))location.replace("m.html"+location.hash)</script>
 </head>
@@ -605,7 +640,8 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
           <svg class="ic"><use href="#i-lock"/></svg>
           <input type="password" id="gatePass" name="password" placeholder="Su clave de acceso" autocomplete="current-password" required>
         </div>
-        <button type="submit" class="btn btn-p">Ingresar al Data Room <svg class="ic"><use href="#i-arrow"/></svg></button>
+        <div id="dselNew"></div>
+      <button type="submit" class="btn btn-p">Ingresar al Data Room <svg class="ic"><use href="#i-arrow"/></svg></button>
         <p class="gate-err" id="gateErr"><svg class="ic"><use href="#i-alert"/></svg> <span id="gateErrMsg">Ingrese un correo válido para continuar.</span></p>
       </form>
       <p class="gate-note"><svg class="ic"><use href="#i-lock"/></svg> Información confidencial. Al ingresar, usted acepta tratar el contenido de este Data Room bajo reserva y usarlo únicamente con fines de evaluación de inversión.</p>
@@ -642,7 +678,7 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
       <h3><svg class="ic"><use href="#i-users"/></svg> Inversionistas autorizados</h3>
       <button class="amodal-x" id="adminClose" aria-label="Cerrar">✕</button>
     </div>
-    <p class="amodal-sub">Cree inversionistas con usuario (correo) y clave generada automáticamente. Puede reiniciar la clave de un usuario o eliminarlo. Los cambios se guardan en este navegador.</p>
+    <p class="amodal-sub">Cree inversionistas con usuario (correo) y clave, y elija qué documentos podrá ver cada uno. También puede editarlos, reiniciar su clave o eliminarlos.</p>
     <form class="amodal-form" id="adminForm" novalidate>
       <input type="text" id="advName" placeholder="Nombre completo" autocomplete="off">
       <input type="email" id="advEmail" placeholder="correo@compania.com" autocomplete="off">
@@ -1005,6 +1041,7 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
 </div>
 </div><!-- /#page -->
 
+<script src="docs.js"></script>
 <script src="config.js"></script>
 <script src="users.js"></script>
 <script src="auth.js"></script>
@@ -1190,6 +1227,7 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
     err.classList.remove('show');
     try{sessionStorage.setItem(KEY,JSON.stringify(u))}catch(_){}
     setUserUI(u);
+    try{ renderDocs(); }catch(_){ }
     runEntry(u,false);
   });
 
@@ -1226,23 +1264,26 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
           +'<input class="aei" id="aeName" value="'+esc(x.name)+'" placeholder="Nombre completo">'
           +'<input class="aei" id="aeEmail" value="'+esc(x.email)+'" placeholder="correo@compania.com">'
           +'<div class="aep"><input class="aei" id="aePass" value="'+esc(pv)+'" placeholder="Nueva clave (opcional)"><button type="button" class="aegen" title="Generar clave nueva">↻</button></div>'
-          +(AUTH.isCloud?'<p class="aehint">Deje la clave vacía para no cambiarla. Si escribe una, anótela: no podrá consultarla después.</p>':'')
+          +docPicker('dselEdit', x.docs)+(AUTH.isCloud?'<p class="aehint">Deje la clave vacía para no cambiarla. Si escribe una, anótela: no podrá consultarla después.</p>':'')
           +'</div><div class="aeb"><button type="button" class="aesave">Guardar</button><button type="button" class="aecancel">Cancelar</button><button type="button" class="aedelete">Eliminar</button></div></div>';
       }
       const ini=esc(x.name.trim().split(/\s+/).map(p=>p[0]).slice(0,2).join('').toUpperCase());
-      return '<div class="arow"><span class="uavatar">'+ini+'</span><span class="ainfo"><b>'+esc(x.name)+'</b><small>'+esc(x.email)+'</small></span><button class="aed" data-id="'+esc(x.id)+'" title="Editar usuario">✎</button><button class="ares" data-id="'+esc(x.id)+'" title="Reiniciar clave">↻</button><button class="adel" data-id="'+esc(x.id)+'" title="Eliminar usuario">✕</button></div>';
+      return '<div class="arow"><span class="uavatar">'+ini+'</span><span class="ainfo"><b>'+esc(x.name)+'</b><small>'+esc(x.email)+'</small></span>'+permBadge(x.docs)+'<button class="aed" data-id="'+esc(x.id)+'" title="Editar usuario">✎</button><button class="ares" data-id="'+esc(x.id)+'" title="Reiniciar clave">↻</button><button class="adel" data-id="'+esc(x.id)+'" title="Eliminar usuario">✕</button></div>';
     }).join('');
     aList.innerHTML='<div class="arow isadmin"><span class="uavatar">JF</span><span class="ainfo"><b>'+esc(ADMIN.name)+'</b><small>'+esc(ADMIN.email)+'</small></span><span class="atag">ADMIN</span></div>'+html;
     aList.querySelectorAll('.aed').forEach(b=>b.onclick=()=>{editId=b.dataset.id;aErr.classList.remove('show');aKey.hidden=true;renderInv()});
     aList.querySelectorAll('.adel').forEach(b=>b.onclick=async()=>{
-      b.disabled=true;
+      const fila=b.closest('.arow'),quien=fila?fila.querySelector('.ainfo b').textContent:'';
+      if(!confirm(CONFIRM_BORRAR.replace('{N}',quien)))return;
+      editId=null;b.disabled=true;
       try{await AUTH.remove(b.dataset.id);aKey.hidden=true;await renderInv()}catch(_){fail('No se pudo guardar. Revise su conexión e intente de nuevo.');b.disabled=false}
     });
     aList.querySelectorAll('.ares').forEach(b=>b.onclick=async()=>{
-      b.disabled=true;
+      editId=null;b.disabled=true;
       try{const r=await AUTH.reset(b.dataset.id);await renderInv();showKey(r.name,r.email,r.pass)}
       catch(_){fail('No se pudo guardar. Revise su conexión e intente de nuevo.');b.disabled=false}
     });
+    bindPicker('dselEdit');
     const ed=aList.querySelector('.aediting');
     if(ed){
       const N=ed.querySelector('#aeName'),E=ed.querySelector('#aeEmail'),P=ed.querySelector('#aePass');
@@ -1252,11 +1293,13 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
         if(n.length<3)return fail('Ingrese el nombre completo del inversionista.');
         if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v))return fail('Ingrese un correo válido.');
         if(v===AUTH.adminEmail||rows.some(x=>x.id!==editId&&String(x.email).toLowerCase()===v))return fail('Ese correo ya está registrado.');
+        const permEd=readPicker('dselEdit');
+        if(Array.isArray(permEd)&&!permEd.length)return fail(ERR_SIN_DOCS);
         if(p&&p.length<4)return fail('La clave debe tener al menos 4 caracteres.');
         if(!p&&v!==String((rows.filter(x=>x.id===editId)[0]||{}).email||'').toLowerCase())return fail('Para cambiar el correo debe asignar una clave nueva.');
         aErr.classList.remove('show');
         const btn=ed.querySelector('.aesave');btn.disabled=true;btn.textContent='Guardando…';
-        try{await AUTH.update(editId,n,v,p);editId=null;await renderInv();if(p)showKey(n,v,p)}
+        try{await AUTH.update(editId,n,v,p,permEd);editId=null;await renderInv();if(p)showKey(n,v,p)}
         catch(_){fail('No se pudo guardar. Revise su conexión e intente de nuevo.');btn.disabled=false;btn.textContent='Guardar'}
       };
       ed.querySelector('.aecancel').onclick=()=>{editId=null;aErr.classList.remove('show');renderInv()};
@@ -1267,7 +1310,9 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
   }
   document.getElementById('uadmin').addEventListener('click',()=>{
     editId=null;aErr.classList.remove('show');aKey.hidden=true;
-    document.getElementById('udrop').hidden=true;modal.hidden=false;renderInv();
+    document.getElementById('udrop').hidden=true;modal.hidden=false;
+    resetPickerNuevo();
+    renderInv();
   });
   (function(){
     const b=document.getElementById('adminPub'),note=document.querySelector('.apub-note');
@@ -1294,12 +1339,15 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
     if(n.length<3)return fail('Ingrese el nombre completo del inversionista.');
     if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v))return fail('Ingrese un correo válido.');
     if(v===AUTH.adminEmail||rows.some(x=>String(x.email).toLowerCase()===v))return fail('Ese correo ya está registrado.');
+    const permNew=readPicker('dselNew');
+    if(Array.isArray(permNew)&&!permNew.length)return fail(ERR_SIN_DOCS);
     aErr.classList.remove('show');
     const btn=aForm.querySelector('button[type=submit]'),lbl=btn.textContent;
     btn.disabled=true;btn.textContent='Guardando…';
     try{
-      const r=await AUTH.create(n,v,document.getElementById('advPass').value);
+      const r=await AUTH.create(n,v,document.getElementById('advPass').value,permNew);
       aName.value='';aEmail.value='';document.getElementById('advPass').value='';
+      resetPickerNuevo();
       await renderInv();showKey(n,v,r.pass);
     }catch(_){fail('No se pudo guardar. Revise su conexión e intente de nuevo.')}
     btn.disabled=false;btn.textContent=lbl;
@@ -1311,49 +1359,125 @@ const WA='https://wa.me/573225974954?text='+encodeURIComponent('Hola, vengo del 
 document.querySelectorAll('.js-wa').forEach(a=>{a.href=WA;a.target='_blank';a.rel='noopener'});
 
 /* ---- documentos ---- */
-const GROUPS=[
- {t:"Starkapital Overview",i:"i-book",d:[
-  ["Starkapital Presentación para Inversionistas","https://docs.google.com/presentation/d/1G3J7xC-xlAFCj5W7DzzfTStCL4BFDNFL/edit?slide=id.p1#slide=id.p1","slides"],
-  ["Starkapital Pitch","https://docs.google.com/document/d/14kKqC7FKoUqRFP33g1ABCgoYol9jwPURUM7JHPhEqsQ/edit?tab=t.0#heading=h.gxtgrnixzmv","doc"],
-  ["Starkapital Manifesto","https://docs.google.com/document/d/1ZveXf5soY0qOTVDLu6cqS1dtS06vNxLbGQ5p6YbYdP0/edit?tab=t.0#heading=h.gxtgrnixzmv","doc"],
-  ["Starkapital Documento Maestro","https://docs.google.com/document/d/1VmSteAjjrtEtuOC7guCFljPEUCX5Fuj9/edit?usp=sharing&ouid=109686496718890253832&rtpof=true&sd=true","doc"],
-  ["Starkapital Video Corporativo","https://drive.google.com/file/d/1O2aDxxH5jpfilONYh9E4pDslqUMRA9IX/view?usp=sharing","video"]]},
- {t:"Product & Technology",i:"i-cpu",d:[
-  ["Manual de Usuario — Versión 1.0","https://docs.google.com/document/d/1FlCs27hrczq0vrA01A7fnOQVDNV312Db/edit?usp=sharing&ouid=109686496718890253832&rtpof=true&sd=true","doc"],
-  ["Diagrama de Infraestructura","https://drive.google.com/file/d/17C5Nj_woH1UsvXk_rOOyegnBu2NF7rWn/view?usp=sharing","pdf"],
-  ["Plan de tecnología","https://docs.google.com/presentation/d/12REqoK64EUC1LZF2kKxkXYM7LA0RErsL/edit?usp=sharing&ouid=109686496718890253832&rtpof=true&sd=true","slides"]]},
- {t:"Market & Competitors",i:"i-target",d:[
-  ["Estudio de Mercado","https://docs.google.com/document/d/1Id4AaXNmqo4IZfS2TAR9AN4baG1QRVWC/edit","doc"]]},
- {t:"Financial Highlights",i:"i-chart",d:[
-  ["Balance General 2025","https://drive.google.com/file/d/1dlFTfzLPk7Tnm43xYIU4rLuHtgMwz0_J/view?usp=sharing","pdf"],
-  ["Estado de Resultados 2025","https://drive.google.com/file/d/14utF8_Go3ZYCM3kqS4987Gken1zhb0AA/view?usp=sharing","pdf"],
-  ["Nota estados Financieros 2025","https://drive.google.com/file/d/1ppVWEhFj0Iep1RKTtc6HHrO8_-FwGU7R/view?usp=sharing","pdf"],
-  ["Balance General 2026","https://drive.google.com/file/d/1ViE5IGEx7BO_8WmGMZT9GFkpzxReMDbE/view?usp=sharing","pdf"],
-  ["Estado de Resultados 2026","https://drive.google.com/file/d/1HhkHsHBvFGM5ltsKi-jhXvZQb471jHwG/view?usp=sharing","pdf"],
-  ["Financial Projections 2026","https://docs.google.com/spreadsheets/d/1fPhagKm4uSpgI-sL9Ya6UQYZOq3v7dtA/edit?gid=1713705583#gid=1713705583","sheet"]]},
- {t:"Team & Governance",i:"i-scale",d:[
-  ["Estructura Legal y Control de Riesgo Institucional","https://docs.google.com/document/d/1OcbGUgh1HXLGKcpOWX7phKBTT8wLo335/edit?usp=sharing&ouid=109686496718890253832&rtpof=true&sd=true","doc"],
-  ["Información Corporativa","https://docs.google.com/presentation/d/1Loh-aDFjclW7MTQlGCP-HDiHwALtf3_6/edit?usp=sharing&ouid=109686496718890253832&rtpof=true&sd=true","slides"],
-  ["Código de Buen Gobierno Corporativo","https://docs.google.com/document/d/1Oe6X4kXaf6wKjLA-K2Pu-OL6lSaoq6Tg/edit?usp=sharing&ouid=109686496718890253832&rtpof=true&sd=true","doc"],
-  ["Plan de Inversión Starkapital","https://docs.google.com/document/d/1axYBIaIIb785kZ1g3bB3dPg5ylUW2xfC/edit?usp=sharing&ouid=109686496718890253832&rtpof=true&sd=true","doc"],
-  ["Nuestro Equipo","https://docs.google.com/document/d/1GPlLeS1IVfOiw1wHqpqq0UIQuwLin1IP/edit?usp=sharing&ouid=109686496718890253832&rtpof=true&sd=true","doc"],
-  ["Política de Castigo de Cartera","https://docs.google.com/document/d/1DenvnfNv8MvMQv-9qJf6Y_UFRxkM10BB/edit","doc"],
-  ["Política de Crédito","https://docs.google.com/document/d/1IJdqDkejRUWVD_G3SWexS-TC5VaTCk-E/edit?usp=sharing&ouid=109686496718890253832&rtpof=true&sd=true","doc"],
-  ["Posición institucional sobre la legalidad de nuestro modelo financiero","https://docs.google.com/document/d/1Dcr5ww0HnhdlwlvVTI1VOLbuGq45zpI6/edit?usp=sharing&ouid=109686496718890253832&rtpof=true&sd=true","doc"]]},
- {t:"Marketing & Press",i:"i-mega",d:[
-  ["Starkapital Brand Book","https://drive.google.com/file/d/1L58A-U00xY2UjcX834Lqg_1SK5uC85PX/view?usp=sharing","pdf"],
-  ["Plan de Marketing Digital","https://docs.google.com/document/d/1cE31x3-jMq3WV61UckQAmhHYbsWk7R15/edit?usp=sharing&ouid=109686496718890253832&rtpof=true&sd=true","doc"],
-  ["Plan de Diversificación","https://docs.google.com/document/d/1y7IV9WanaCOL4v73k7hqCFCNPr9pCoXf/edit?usp=sharing&ouid=109686496718890253832&rtpof=true&sd=true","doc"]]}
-];
 const KIND={slides:['i-slides','Presentación'],doc:['i-doc','Documento'],sheet:['i-sheet','Hoja de cálculo'],pdf:['i-pdf','PDF'],video:['i-video','Video']};
-document.getElementById('docs').innerHTML=GROUPS.map((g,i)=>`
-  <details class="dg rv"${i===0?' open':''}>
-    <summary><h3><svg class="ic"><use href="#${g.i}"/></svg><span>${g.t}</span><span class="ct">${g.d.length}</span></h3><svg class="ic arrow"><use href="#i-down"/></svg></summary>
-    <div class="items">${g.d.map(([n,u,k])=>`<a class="doc" href="${u}" target="_blank" rel="noopener">
-      <span class="ft"><svg class="ic"><use href="#${KIND[k][0]}"/></svg></span>
-      <span class="nm">${n}<em>${KIND[k][1]}</em></span>
-      <svg class="ic go"><use href="#i-ext"/></svg></a>`).join('')}</div>
-  </details>`).join('');
+/* ===== catálogo y permisos por documento ===== */
+const ERR_SIN_DOCS = "Seleccione al menos un documento visible.";
+const CONFIRM_BORRAR = "¿Eliminar a {N}? Esta acción no se puede deshacer.";
+const escd = t => String(t).replace(/[<>&"]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]));
+const SKD = Array.isArray(window.SK_DOCS) ? window.SK_DOCS : [];
+const ALL_IDS = SKD.reduce((a,g)=>a.concat(g.d.map(x=>x.id)),[]);
+
+function sessionUser(){ try{ return JSON.parse(sessionStorage.getItem('sk_dr_user')); }catch(_){ return null; } }
+
+/* Grupos visibles para el usuario en sesión. El admin ve todo. */
+function visibleGroups(){
+  const u = sessionUser();
+  const perm = (u && u.role !== 'admin' && Array.isArray(u.docs)) ? new Set(u.docs) : null;
+  if(!perm) return SKD;
+  return SKD.map(g=>({t:g.t,i:g.i,d:g.d.filter(x=>perm.has(x.id))})).filter(g=>g.d.length);
+}
+
+/* Construye el selector de documentos del panel de administración. */
+function docPicker(pref, sel){
+  const S = Array.isArray(sel) ? new Set(sel) : null;   // null = todos
+  const on = id => !S || S.has(id);
+  const body = SKD.map(g=>{
+    const ids = g.d.map(x=>x.id);
+    const rows = g.d.map(x=>
+      '<label class="dsel-d"><input type="checkbox" data-p="'+pref+'" value="'+x.id+'"'+(on(x.id)?' checked':'')+'>'
+      +'<span>'+escd(x.n)+'</span></label>').join('');
+    return '<label class="dsel-g"><input type="checkbox" data-p="'+pref+'" data-grp="'+ids.join(',')+'">'
+      +'<span>'+escd(g.t)+'</span></label>'+rows;
+  }).join('');
+  return '<div class="dsel" id="'+pref+'">'
+    +'<div class="dsel-head"><b>Documentos visibles</b>'
+    +'<button type="button" data-act="all">Todos</button>'
+    +'<button type="button" data-act="none">Ninguno</button>'
+    +'<span class="dsel-n"></span></div>'
+    +'<div class="dsel-body">'+body+'</div>'
+    +'<p class="dsel-hint">Marque los documentos que verá dentro del portal. Por defecto ve todo.</p></div>';
+}
+
+/* Enlaza los controles del selector ya insertado en el DOM. */
+function bindPicker(pref){
+  const root = document.getElementById(pref);
+  if(!root) return;
+  const boxes = () => [...root.querySelectorAll('input[type=checkbox]:not([data-grp])')];
+  const groups = () => [...root.querySelectorAll('input[data-grp]')];
+  function refresh(){
+    const n = boxes().filter(b=>b.checked).length;
+    root.querySelector('.dsel-n').textContent = n+' de '+ALL_IDS.length;
+    groups().forEach(g=>{
+      const ids = g.dataset.grp.split(',');
+      const marked = ids.filter(id=>{
+        const b = root.querySelector('input[value="'+id+'"]');
+        return b && b.checked;
+      }).length;
+      g.checked = marked === ids.length;
+      g.indeterminate = marked > 0 && marked < ids.length;
+    });
+  }
+  groups().forEach(g=>g.addEventListener('change',()=>{
+    g.dataset.grp.split(',').forEach(id=>{
+      const b = root.querySelector('input[value="'+id+'"]');
+      if(b) b.checked = g.checked;
+    });
+    refresh();
+  }));
+  boxes().forEach(b=>b.addEventListener('change',refresh));
+  root.querySelector('[data-act=all]').addEventListener('click',()=>{boxes().forEach(b=>b.checked=true);refresh()});
+  root.querySelector('[data-act=none]').addEventListener('click',()=>{boxes().forEach(b=>b.checked=false);refresh()});
+  refresh();
+}
+
+/* Lee el selector: devuelve null si están todos marcados. */
+function readPicker(pref){
+  const root = document.getElementById(pref);
+  if(!root) return null;
+  const boxes = [...root.querySelectorAll('input[type=checkbox]:not([data-grp])')];
+  const sel = boxes.filter(b=>b.checked).map(b=>b.value);
+  if(!boxes.length || !ALL_IDS.length) return [];   // ante la duda, restringe
+  return sel.length >= ALL_IDS.length ? null : sel;
+}
+
+/* Etiqueta de permisos para la lista de inversionistas. */
+function permBadge(docs){
+  if(!Array.isArray(docs)) return '<span class="aperm all">Todos</span>';
+  return '<span class="aperm">'+docs.length+'/'+ALL_IDS.length+' docs</span>';
+}
+
+/* Repinta el selector del formulario de alta desde cero. Sin esto, el
+   siguiente inversionista heredaba la selección del anterior. */
+function resetPickerNuevo(){
+  const nb=document.getElementById('dselNew');
+  if(!nb) return;
+  nb.outerHTML=docPicker('dselNew',null);
+  bindPicker('dselNew');
+}
+
+/* ===== render de la sección Documentos ===== */
+function renderDocs(){
+  const box = document.getElementById('docs');
+  if(!box) return;
+  if(!sessionUser()){ box.innerHTML=''; return; }   // sin sesión no se pinta nada
+  const G = visibleGroups();
+  if(!G.length){ box.innerHTML = '<p class="dg-empty">Su usuario todavía no tiene documentos habilitados. Escríbanos y lo activamos.</p>'; return; }
+  box.innerHTML = G.map((g,i)=>`
+    <details class="dg rv"${i===0?' open':''}>
+      <summary><h3><svg class="ic"><use href="#${g.i}"/></svg><span>${g.t}</span><span class="ct">${g.d.length}</span></h3><svg class="ic arrow"><use href="#i-down"/></svg></summary>
+      <div class="items">${g.d.map(x=>`<a class="doc" href="${x.u}" target="_blank" rel="noopener">
+        <span class="ft"><svg class="ic"><use href="#${KIND[x.k][0]}"/></svg></span>
+        <span class="nm">${x.n}<em>${KIND[x.k][1]}</em></span>
+        <svg class="ic go"><use href="#i-ext"/></svg></a>`).join('')}</div>
+    </details>`).join('');
+  const u = sessionUser();
+  const sub = document.querySelector('#documentos .sec-head p');
+  if(sub) sub.textContent = (u && u.role!=='admin' && Array.isArray(u.docs))
+    ? 'Documentos habilitados para su acceso.' : 'Seis bloques documentales. Cada documento abre en una pestaña nueva sobre Google Drive.';
+  box.querySelectorAll('.rv').forEach(el=>el.classList.add('in'));
+}
+renderDocs();
+
 
 /* ---- header, progreso, CTA móvil, nav activa ---- */
 const hdr=document.getElementById('hdr'),prog=document.getElementById('prog'),mcta=document.getElementById('mcta');
