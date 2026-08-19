@@ -113,6 +113,8 @@
         : null);
     },
 
+    refresh: function () { return Promise.resolve(undefined); },
+
     adminLogin: function (email, pass) {
       var stored = 'starkadmin2026';
       try { stored = localStorage.getItem('sk_dr_adminpass') || stored; } catch (_) {}
@@ -215,7 +217,7 @@
         var snap = await fb.D.getDoc(fb.D.doc(fb.db, 'access', id));
         if (snap.exists()) {
           var d = snap.data();
-          return { name: d.name, email: d.email, role: 'inversionista', docs: normDocs(d.docs) };
+          return { name: d.name, email: d.email, role: 'inversionista', docs: normDocs(d.docs), aid: id };
         }
       } catch (e) { cloudApi.lastError = e; caido = true; }
       if (!caido) return null;   // la nube respondió: no hay tal credencial
@@ -227,6 +229,16 @@
       return hit
         ? { name: hit.name, email: hit.email, role: 'inversionista', docs: normDocs(hit.docs) }
         : null;
+    },
+
+    /* Relee los permisos vigentes de una sesión ya autenticada.
+       Devuelve null si el acceso fue revocado o la clave reiniciada. */
+    refresh: async function (aid) {
+      await loadFirebase();
+      var snap = await fb.D.getDoc(fb.D.doc(fb.db, 'access', aid));
+      if (!snap.exists()) return null;
+      var d = snap.data();
+      return { name: d.name, email: d.email, role: 'inversionista', docs: normDocs(d.docs), aid: aid };
     },
 
     adminLogin: async function (email, pass) {

@@ -1041,10 +1041,10 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
 </div>
 </div><!-- /#page -->
 
-<script src="docs.js?v=20260818b"></script>
-<script src="config.js?v=20260818b"></script>
-<script src="users.js?v=20260818b"></script>
-<script src="auth.js?v=20260818b"></script>
+<script src="docs.js?v=20260818c"></script>
+<script src="config.js?v=20260818c"></script>
+<script src="users.js?v=20260818c"></script>
+<script src="auth.js?v=20260818c"></script>
 <script>
 /* ================= GATE + PRELOADER ================= */
 (function(){
@@ -1195,6 +1195,26 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
     setUserUI(stored);
     document.body.classList.add('gated');   /* F5: preloader también */
     runEntry(stored,true);
+    revalidarPermisos(stored);
+  }
+
+  /* Los permisos pueden haber cambiado desde que esta persona inició
+     sesión. Se releen en cada carga para que un cambio del administrador
+     tenga efecto al recargar, sin obligar a cerrar sesión. */
+  async function revalidarPermisos(u){
+    if(!u || u.role==='admin' || !u.aid || typeof AUTH.refresh!=='function') return;
+    let fresco;
+    try{ fresco = await AUTH.refresh(u.aid); }catch(_){ return; }   // sin conexión: se conserva lo que hay
+    if(fresco === undefined) return;                               // modo local
+    if(fresco === null){                                           // acceso revocado
+      try{ sessionStorage.removeItem(KEY); }catch(_){}
+      location.reload();
+      return;
+    }
+    if(JSON.stringify(fresco) === JSON.stringify(u)) return;       // sin cambios
+    try{ sessionStorage.setItem(KEY, JSON.stringify(fresco)); }catch(_){}
+    setUserUI(fresco);
+    try{ renderDocs(); }catch(_){ }
   }
   document.getElementById('ulogout').addEventListener('click',()=>runExit(getUser()));
 
