@@ -1041,10 +1041,10 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
 </div>
 </div><!-- /#page -->
 
-<script src="docs.js?v=20260818c"></script>
-<script src="config.js?v=20260818c"></script>
-<script src="users.js?v=20260818c"></script>
-<script src="auth.js?v=20260818c"></script>
+<script src="docs.js?v=20260818d"></script>
+<script src="config.js?v=20260818d"></script>
+<script src="users.js?v=20260818d"></script>
+<script src="auth.js?v=20260818d"></script>
 <script>
 /* ================= GATE + PRELOADER ================= */
 (function(){
@@ -1202,7 +1202,16 @@ body.gated #gate{display:grid;grid-template-columns:1.05fr .95fr}
      sesión. Se releen en cada carga para que un cambio del administrador
      tenga efecto al recargar, sin obligar a cerrar sesión. */
   async function revalidarPermisos(u){
-    if(!u || u.role==='admin' || !u.aid || typeof AUTH.refresh!=='function') return;
+    if(!u || u.role==='admin' || typeof AUTH.refresh!=='function') return;
+    if(!u.aid){
+      /* sesión anterior a esta versión: no se puede revalidar, se pide
+         iniciar sesión de nuevo para aplicar los permisos vigentes */
+      if(AUTH.isCloud){
+        try{ sessionStorage.removeItem(KEY); }catch(_){}
+        location.reload();
+      }
+      return;
+    }
     let fresco;
     try{ fresco = await AUTH.refresh(u.aid); }catch(_){ return; }   // sin conexión: se conserva lo que hay
     if(fresco === undefined) return;                               // modo local
