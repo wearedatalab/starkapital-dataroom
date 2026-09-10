@@ -44,7 +44,10 @@ window.SK_DOCS = [
     { id: "tg5", n: "Nuestro Equipo", u: "https://docs.google.com/document/d/1GPlLeS1IVfOiw1wHqpqq0UIQuwLin1IP/edit?usp=sharing&ouid=109686496718890253832&rtpof=true&sd=true", k: "doc" },
     { id: "tg6", n: "Política de Castigo de Cartera", u: "https://docs.google.com/document/d/1DenvnfNv8MvMQv-9qJf6Y_UFRxkM10BB/edit", k: "doc" },
     { id: "tg7", n: "Política de Crédito", u: "https://docs.google.com/document/d/1IJdqDkejRUWVD_G3SWexS-TC5VaTCk-E/edit?usp=sharing&ouid=109686496718890253832&rtpof=true&sd=true", k: "doc" },
-    { id: "tg8", n: "Posición institucional sobre la legalidad de nuestro modelo financiero", u: "https://docs.google.com/document/d/1Dcr5ww0HnhdlwlvVTI1VOLbuGq45zpI6/edit?usp=sharing&ouid=109686496718890253832&rtpof=true&sd=true", k: "doc" }
+    { id: "tg8", n: "Posición institucional sobre la legalidad de nuestro modelo financiero", u: "https://docs.google.com/document/d/1Dcr5ww0HnhdlwlvVTI1VOLbuGq45zpI6/edit?usp=sharing&ouid=109686496718890253832&rtpof=true&sd=true", k: "doc" },
+    { id: "tg9", n: "Términos y Condiciones", u: "https://drive.google.com/file/d/1XLmSCpG0pkR6oyf5Ady1Or8QPFbfs7-Q/view", k: "pdf" },
+    { id: "tg10", n: "Política de Tratamiento de Datos Personales", u: "https://drive.google.com/file/d/184CRQPSLPhzXaFrEvXP9c8AmuKC233Hs/view", k: "pdf" },
+    { id: "tg11", n: "Política SAGRILAFT", u: "https://drive.google.com/file/d/1qZl1Nrt8khL4_Yg5j2aq369kJo9-0df4/view", k: "pdf" }
   ]},
   { t: "Marketing & Press", i: "i-mega", d: [
     { id: "mp1", n: "Starkapital Brand Book", u: "https://drive.google.com/file/d/1L58A-U00xY2UjcX834Lqg_1SK5uC85PX/view?usp=sharing", k: "pdf" },
